@@ -43,7 +43,7 @@
             </li>
             </ul>
             <div class="py-1">
-            <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Sign out</a>
+            <a href="../includes/auth/signout.php" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Sign out</a>
             </div>
         </div>
     </div>
