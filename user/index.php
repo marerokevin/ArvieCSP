@@ -1,10 +1,12 @@
 <?php
 session_start();
+
 include_once ("../includes/config/conn.php");
 $db= $conn;
 date_default_timezone_set("Asia/Singapore");
 $dateNow = new DateTime(); 
 $dateNow  = $dateNow->format('M d, Y'); 
+?>
 
 $id = $_SESSION["id"];
 $SelectPresentBalance ="SELECT * FROM `totalbalance` WHERE `userID` = '$id';";
