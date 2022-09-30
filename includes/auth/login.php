@@ -48,7 +48,7 @@ if(isset($_POST["login"])){
                             $_SESSION["access"] = $access;
 
                             if($admin==true){
-                                header("location: ./admin/admin.php");
+                                header("location: ./admin/index.php");
                             }
                             else{
                                 if($access == false){
