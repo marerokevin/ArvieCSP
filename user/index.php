@@ -323,25 +323,25 @@ return $msg;
 
         <div class=" user-dashboard-content-container pt-24 px-6 pb-6 bg-emerald-100 h-screen">
             <!-- Top Content -->
-            <div class="flex flex-col lg:flex-row h-60 md:h-60 lg:h-40 xl:h-48 bg-gradient rounded-2xl">
+            <div class="flex flex-col lg:flex-row h-56 lg:h-40 xl:h-48 bg-gradient rounded-2xl">
                 <div class="lg:w-1/2">
-                    <div class="h-60 md:h-40 xl:h-48 rounded-2xl">
-                        <div class="h-full pl-5 py-5 md:pl-3 md:py-2 grid grid-rows-9 text-white items-center">
-                            <div class="font-medium text-xl md:text-lg lg:text-xl xl:text-2xl">Overall Income</div>
-                            <div class="row-span-2 text-3xl md:text-2xl xl:text-3xl font-black">₱ <?php $totalincome = number_format($totalBalance, 2);echo $totalincome; //cedrick code?></div>
-                            <div class="row-span-2 text-xl md:text-2xl lg:text-xl xl:text-2xl font-medium">Available Balance as of <?php echo $dateNow; ?></div>
-                            <div class="row-span-4 text-5xl md:text-4xl xl:text-5xl font-black glow-font">₱ <?php $totalBalance2 = number_format($totalBalance, 2);echo $totalBalance2; //cedrick code?></div>
+                    <div class="h-36 xl:h-48 rounded-2xl">
+                        <div class="h-full pl-3 py-2 text-white items-center">
+                            <div class="font-medium text-lg sm:text-lg lg:text-xl xl:text-2xl">Overall Income</div>
+                            <div class="row-span-2 text-xl sm:text-2xl xl:text-3xl font-black">₱ <?php $totalincome = number_format($totalBalance, 2);echo $totalincome; //cedrick code?></div>
+                            <div class="row-span-2 text-lg sm:text-xl lg:text-xl xl:text-2xl font-medium">Available Balance as of <?php echo $dateNow; ?></div>
+                            <div class="row-span-4 text-3xl sm:text-4xl xl:text-5xl font-black glow-font">₱ <?php $totalBalance2 = number_format($totalBalance, 2);echo $totalBalance2; //cedrick code?></div>
                         </div>
                     </div>
                 </div>
                 <div class="flex text-white pl-5 py-2 lg:w-1/2">
                     <div class="h-16">
-                        <div class="font-medium text-xl md:text-lg xl:text-xl">Points Earned</div>
-                        <div class="row-span-2 text-3xl md:text-2xl xl:text-3xl font-black"><?php echo $totalPoints;?></div>
+                        <div class="font-medium text-md sm:text-lg xl:text-xl">Points Earned</div>
+                        <div class="row-span-2 text-2xl xl:text-3xl font-black"><?php echo $totalPoints;?></div>
                     </div>
 
-                    <div class="h-16 pt-2 ml-10">
-                        <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-lg lg:text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                    <div class="h-16 pt-2 ml-6">
+                        <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-sm lg:text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                         Redeem Code
                         </button>
                     </div>
@@ -349,11 +349,11 @@ return $msg;
             </div>
 
             <!-- Bottom Content -->
-            <div class=" z-0 bottom-content mt-6  bg-gradient-transaction rounded-2xl">
+            <div class="bottom-content mt-6  bg-gradient-transaction rounded-2xl">
             <!-- <div class="absolute  z-10 h-full w-full coffee-pattern bottom-content rounded-2xl"> </div> -->
-            <div class=" top-0 z-10 w-full h-full bottom-content px-3 p2-3 md:px-3 md:py-2  rounded-2xl">
-                <h1 class="text-2xl md:text-xl xl:text-2xl font-black text-white">Income Details</h1>
-                <h2 class="text-xl md:text-lg xl:text-xl font-black text-neutral-300">Latest</h2>
+            <div class="w-full h-full bottom-content px-3 py-3 rounded-2xl">
+                <h1 class="text-xl xl:text-2xl font-black text-white">Income Details</h1>
+                <h2 class="text-lg xl:text-xl font-black text-neutral-300">Latest</h2>
                 <div style="height: calc(100% - 60px);" class="w-full h-full overflow-auto">
                     <!-- i-while loop lang to -->
 
@@ -377,13 +377,13 @@ return $msg;
                                         if($type=="Direct Referral"){
                         ?>
                         <!-- Pag from Direct Referral -->
-                        <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-3">
-                            <div class="self-end text-center pl-2 text-lg md:text-sm xl:text-base font-medium">Category</div>
-                            <div class="self-end text-center text-lg md:text-sm xl:text-base font-medium">Invite's Name</div>
-                            <div></div>
-                            <div class="row-span-3 col-span-2 self-center text-end mr-5 text-4xl md:text-2xl xl:text-3xl font-black">+  ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;//cedrick code ?></div> 
-                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-2xl md:text-lg xl:text-xl font-bold text-green-600"> <?php echo $type; ?></div>
-                            <div class="row-span-2 pl-1 mr-1 self-center text-start whitespace-nowrap lg:whitespace-normal md:text-center text-2xl md:text-lg xl:text-xl font-bold"><?php echo $inviteName; ?></div>
+                        <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-4 sm:grid-cols-5 grid-rows-4 sm:grid-rows-3">
+                            <div class="row-span-2 sm:row-span-1 self-center sm:self-end text-center pl-2 text-xs sm:text-sm md:text-sm xl:text-base font-medium">Category</div>
+                            <div class="row-span-2 sm:row-span-1 self-center sm:self-end text-center text-xs sm:text-sm md:text-sm xl:text-base font-medium">Invite's Name</div>
+                            <div class="hidden sm:block"></div>
+                            <div class="row-span-4 sm:row-span-3 col-span-2 self-center text-end mr-5 text-lg sm:text-xl md:text-2xl xl:text-3xl font-black">+  ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;//cedrick code ?></div> 
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base xl:text-xl font-bold text-green-600"> <?php echo $type; ?></div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal lg:whitespace-normal md:text-center text-xs sm:text-base md:text-lg xl:text-xl font-bold"><?php echo $inviteName; ?>John Arian Malondras</div>
                         </div>
 
                         <?php 
@@ -391,13 +391,13 @@ return $msg;
                         ?>
                         <!-- Pag from Indirect Referral -->
                         <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-3">
-                            <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Category</div>
-                            <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Downline Name</div>
-                            <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Invite's Name</div>
-                            <div class="row-span-3 col-span-2 self-center text-end mr-5 text-4xl md:text-2xl xl:text-3xl font-black">+ ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;?></div>
-                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-2xl md:text-base xl:text-xl font-bold text-green-600"><?php echo $type; ?></div>
-                            <div class="row-span-2 pl-1 mr-1 self-center text-start md:text-center whitespace-nowrap overflow-hidden lg:whitespace-normal xl:text-center text-2xl md:text-lg xl:text-xl font-bold"><?php echo $inviteeName; ?></div>
-                            <div class="row-span-2 pl-1 mr-1 self-center text-start md:text-center whitespace-nowrap overflow-hidden lg:whitespace-normal xl:text-center text-2xl md:text-lg xl:text-xl font-bold"><?php echo $inviteName; ?></div>
+                            <div class="self-end text-center text-xs sm:text-sm xl:text-base font-medium">Category</div>
+                            <div class="self-end text-center text-xs sm:text-sm xl:text-base font-medium">Downline Name</div>
+                            <div class="self-end text-center text-xs sm:text-sm xl:text-base font-medium">Invite's Name</div>
+                            <div class="row-span-3 col-span-2 self-center text-end mr-5 text-lg sm:text-xl md:text-2xl xl:text-3xl font-black">+ ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;?></div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base xl:text-xl font-bold text-green-600"><?php echo $type; ?></div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal overflow-hidden lg:whitespace-nowrap text-xs sm:text-base xl:text-xl font-bold"><?php echo $inviteeName; ?></div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal overflow-hidden lg:whitespace-nowrap text-xs sm:text-base xl:text-xl font-bold"><?php echo $inviteName; ?>John Arian Malondras</div>
                         </div>
 
                         <?php 
@@ -405,28 +405,28 @@ return $msg;
                         ?>
                         <!-- Pag from rebate -->
                         <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-3">
-                            <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Category</div>
-                            <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Type</div>
-                            <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Downline Name</div>
-                            <div class="row-span-3 col-span-2 self-center text-end mr-5 text-4xl md:text-2xl xl:text-3xl font-black">+ ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;?></div>
-                            <div class="row-span-2 self-center text-center text-2xl md:text-lg xl:text-xl font-bold text-orange-600">Rebate</div>
-                            <div class="row-span-2 self-center text-center text-2xl md:text-lg xl:text-xl font-bold"><?php if($package == 'RA'){ echo'Botanical';}else {echo 'Kapenato';} ?></div>
-                            <div class="row-span-2 self-center text-center text-2xl md:text-lg xl:text-xl font-bold"><?php echo $codeOwner;?></div>
+                            <div class="self-end text-center text-xs sm:text-sm xl:text-base font-medium">Category</div>
+                            <div class="self-end text-center text-xs sm:text-sm xl:text-base font-medium">Type</div>
+                            <div class="self-end text-center text-xs sm:text-sm xl:text-base font-medium">Downline Name</div>
+                            <div class="row-span-3 col-span-2 self-center text-end mr-5 text-lg sm:text-xl md:text-2xl xl:text-3xl font-black">+ ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;?></div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base md:text-lg xl:text-xl font-bold text-orange-600">Rebate</div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base md:text-lg xl:text-xl font-bold"><?php if($package == 'RA'){ echo'Botanical';}else {echo 'Kapenato';} ?></div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base md:text-lg xl:text-xl overflow-hidden font-bold"><?php echo $codeOwner;?></div>
                         </div>
 
                         <?php 
-                                        }elseif($type=="Points"){
+                                        //}elseif($type=="Points"){
                         ?>
                         <!-- Pag from rebate -->
-                        <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-2">
+                        <!-- <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-2">
                             <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Category</div>
                             <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Type</div>
                             <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium"></div>
                             <div class="row-span-2 col-span-2 self-center text-end mr-5 text-4xl md:text-2xl xl:text-3xl font-black">+ 1</div>
                             <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold text-orange-600">Points</div>
-                            <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold"><?php if($package == 'RA'){ echo'Botanical';}else {echo 'Kapenato';} ?></div>
+                            <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold"><?php //if($package == 'RA'){ echo'Botanical';}else {echo 'Kapenato';} ?></div>
                             <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold"></div>
-                        </div>
+                        </div> -->
 
                         <?php 
                                         }elseif($type=="Withdrawal"){
@@ -452,5 +452,17 @@ return $msg;
           </div>   
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $("#header_dashboard").addClass("bg-gray-300");
+            $("#nav_dashboard").addClass("bg-emerald-700");
+            $("#nav_dashboard").addClass("text-white");
+            $("#nav_dashboard").removeClass("text-gray-600");
+        });
+    </script>
+
+
+
 </body>
 </html>
