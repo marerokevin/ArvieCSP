@@ -163,8 +163,9 @@ CREATE TABLE `referral_codes` (
   `ref_code` varchar(14) NOT NULL,
   `generation_batch` varchar(255) NOT NULL,
   `transaction_id` int(255) NOT NULL AUTO_INCREMENT,
+  `codetype` varchar(2) NOT NULL,
   PRIMARY KEY (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,17 +175,62 @@ CREATE TABLE `referral_codes` (
 LOCK TABLES `referral_codes` WRITE;
 /*!40000 ALTER TABLE `referral_codes` DISABLE KEYS */;
 INSERT INTO `referral_codes` VALUES
-('2022-10-21 15:58:09','Kevin Roy Marero','2022-10-21 15:58:09',NULL,'2022-10-21 15:58:09','to_redeem','DI10-jlkg-mKg8','ATTzDM7mbZorw6ejxi',1),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-ZP5M-sNwi','ATkxuEPmNKaLXVOI81',2),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-CXW5-Nsog','ATkxuEPmNKaLXVOI81',3),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-8RlB-0bej','ATkxuEPmNKaLXVOI81',4),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-vVFN-6H8F','ATkxuEPmNKaLXVOI81',5),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-0v2i-uCIx','ATkxuEPmNKaLXVOI81',6),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-fJHx-bwDi','ATkxuEPmNKaLXVOI81',7),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-FqLX-Ln9H','ATkxuEPmNKaLXVOI81',8),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-UMJL-4vKP','ATkxuEPmNKaLXVOI81',9),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-rexB-seUz','ATkxuEPmNKaLXVOI81',10),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-k7OX-0lW3','ATkxuEPmNKaLXVOI81',11);
+('2022-10-21 15:58:09','Kevin Roy Marero','2022-10-21 15:58:09',NULL,'2022-10-21 15:58:09','to_redeem','DI10-jlkg-mKg8','ATTzDM7mbZorw6ejxi',1,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-ZP5M-sNwi','ATkxuEPmNKaLXVOI81',2,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-CXW5-Nsog','ATkxuEPmNKaLXVOI81',3,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-8RlB-0bej','ATkxuEPmNKaLXVOI81',4,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-vVFN-6H8F','ATkxuEPmNKaLXVOI81',5,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-0v2i-uCIx','ATkxuEPmNKaLXVOI81',6,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-fJHx-bwDi','ATkxuEPmNKaLXVOI81',7,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-FqLX-Ln9H','ATkxuEPmNKaLXVOI81',8,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-UMJL-4vKP','ATkxuEPmNKaLXVOI81',9,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-rexB-seUz','ATkxuEPmNKaLXVOI81',10,''),
+('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-k7OX-0lW3','ATkxuEPmNKaLXVOI81',11,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-vP2j-riEm','ATKSdFwuhVMRot8ZO1',12,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-Ksw8-Y6E1','ATKSdFwuhVMRot8ZO1',13,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-KOxP-BG6L','ATKSdFwuhVMRot8ZO1',14,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-lgoZ-4ejT','ATKSdFwuhVMRot8ZO1',15,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-6Ctc-A7Y3','ATKSdFwuhVMRot8ZO1',16,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-kAa2-a5it','ATKSdFwuhVMRot8ZO1',17,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-mauC-Klfm','ATKSdFwuhVMRot8ZO1',18,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-F5SA-EoQd','ATKSdFwuhVMRot8ZO1',19,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-Yyhu-LH3K','ATKSdFwuhVMRot8ZO1',20,''),
+('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-DPvT-WzTh','ATKSdFwuhVMRot8ZO1',21,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-RMoU-na8N','AT3nqJkIh04Y1wKFT8',22,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-w9h7-p4eW','AT3nqJkIh04Y1wKFT8',23,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-ubv8-6qU3','AT3nqJkIh04Y1wKFT8',24,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-8SsA-uv9a','AT3nqJkIh04Y1wKFT8',25,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-YwJX-XxBJ','AT3nqJkIh04Y1wKFT8',26,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-TeXQ-qyPQ','AT3nqJkIh04Y1wKFT8',27,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-JOEt-Q483','AT3nqJkIh04Y1wKFT8',28,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-4eWx-8pYB','AT3nqJkIh04Y1wKFT8',29,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-0WOI-fk7t','AT3nqJkIh04Y1wKFT8',30,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-jT6k-Df2r','AT3nqJkIh04Y1wKFT8',31,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-N2rR-qhU6','AT3nqJkIh04Y1wKFT8',32,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-hoQ0-sQKb','AT3nqJkIh04Y1wKFT8',33,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-Hjfp-wLoP','AT3nqJkIh04Y1wKFT8',34,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-2aij-Uu2m','AT3nqJkIh04Y1wKFT8',35,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-4l3E-HdoJ','AT3nqJkIh04Y1wKFT8',36,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-6oRB-Yojm','AT3nqJkIh04Y1wKFT8',37,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-ot4m-qOpj','AT3nqJkIh04Y1wKFT8',38,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-nzCh-Ggs2','AT3nqJkIh04Y1wKFT8',39,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-AP5b-Ewl1','AT3nqJkIh04Y1wKFT8',40,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-N6WH-pvIE','AT3nqJkIh04Y1wKFT8',41,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-dEjA-uJtn','AT3nqJkIh04Y1wKFT8',42,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-m9lc-oIRW','AT3nqJkIh04Y1wKFT8',43,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-mXTD-mJd5','AT3nqJkIh04Y1wKFT8',44,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-CEc2-0qQA','AT3nqJkIh04Y1wKFT8',45,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-4gpE-kDjA','AT3nqJkIh04Y1wKFT8',46,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-OjQH-sHtN','AT3nqJkIh04Y1wKFT8',47,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-YyOP-rZD3','AT3nqJkIh04Y1wKFT8',48,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-qahV-P6lZ','AT3nqJkIh04Y1wKFT8',49,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-Wdv0-2imG','AT3nqJkIh04Y1wKFT8',50,''),
+('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-9dFG-HZiW','AT3nqJkIh04Y1wKFT8',51,''),
+('2022-10-22 10:46:18','Kevin Roy Marero','2022-10-22 10:46:18',NULL,'2022-10-22 10:46:18','to_redeem','DI10-fBTr-hwXj','ATxDJRZMScTnCikq6Y',52,''),
+('2022-10-22 12:13:13','Kevin Roy Marero','2022-10-22 12:13:13',NULL,'2022-10-22 12:13:13','to_redeem','DI10-fDq2-pwDu','AT10-cPg3n67kXLUIfuA0',53,'DI'),
+('2022-10-22 12:14:43','Kevin Roy Marero','2022-10-22 12:14:43',NULL,'2022-10-22 12:14:43','to_redeem','DI10-kj9P-MLPi','AT10-CbGoyY9q31DfxRSB',54,'DI'),
+('2022-10-22 12:14:59','Kevin Roy Marero','2022-10-22 12:14:59',NULL,'2022-10-22 12:14:59','to_redeem','RA10-yGev-9wjK','AT10-SkdX2HfB6KEMaeNU',55,'RA'),
+('2022-10-22 12:15:05','Kevin Roy Marero','2022-10-22 12:15:05',NULL,'2022-10-22 12:15:05','to_redeem','RB10-40Ri-izdG','AT10-M9O1X6yCzpQo4Ur0',56,'RB');
 /*!40000 ALTER TABLE `referral_codes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,4 +377,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-21 16:01:26
+-- Dump completed on 2022-10-22 16:03:28
