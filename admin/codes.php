@@ -21,10 +21,11 @@ while($fetch_id = mysqli_fetch_assoc($query_member_id)){
 if(isset($_POST['generate'])){
     $String_c='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $transaction_code = "AT";
+    $get_month_trans = date('m', strtotime("now"));
     $generation_batch = substr(str_shuffle($String_c), 0, 16);
     $count = $_POST['count'];
     $gen = array();
-    $transaction = "$transaction_code$get_month$generation_batch";
+    $transaction = "$transaction_code$get_month_trans-$generation_batch";
 
     $transaction_select = "SELECT `generation_batch` FROM referral_codes where `generation_batch` = '$transaction'";
     $transaction_query = mysqli_query($conn, $transaction_select);
@@ -44,7 +45,7 @@ if(isset($_POST['generate'])){
             $member_id = $_POST['member_id'];
             $turon = $gen[$x];
             
-            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`) VALUES ('$turon', current_timestamp(), '$user', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction')";
+            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`) VALUES ('$turon', current_timestamp(), '$user', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype')";
             mysqli_query($conn, $insert_generated);
         }
     }
@@ -285,7 +286,7 @@ if(isset($_POST['generate'])){
                     </thead>
                     <tbody>
                     <?php
-                    $referral_list = "SELECT DISTINCT generation_batch, gen_date from referral_codes"; //select all referral codes
+                    $referral_list = "SELECT DISTINCT generation_batch, gen_date, referrer, codetype from referral_codes"; //select all referral codes
                     $referral_query = mysqli_query($conn, $referral_list);
                     while ($referral = mysqli_fetch_assoc($referral_query)) {
                             ?>
@@ -294,11 +295,11 @@ if(isset($_POST['generate'])){
                             <td class="text-center"><?php echo $referral['generation_batch']; ?></td>
                             <td class="text-center"><?php echo $referral['referrer']; ?></td>
                             <td class="text-center">
-                                <?php if (substr($referral['ref_code'],0, 2) == "DI") {
+                                <?php if ($referral['codetype'] == "DI") {
                                         echo "Direct Sales";
-                                    } elseif (substr($referral['ref_code'],0, 2) == "RA") {
+                                    } elseif ($referral['codetype'] == "RA") {
                                         echo "Botanical";
-                                    } elseif (substr($referral['ref_code'],0, 2) == "RB") {
+                                    } elseif ($referral['codetype'] == "RB") {
                                         echo "Kapenato & Cereal";
                                     }?>
                             </td>
@@ -319,7 +320,7 @@ if(isset($_POST['generate'])){
                                     </svg>
                                 </button>
                             </td>
-                            <?php } ?>
+                            <?php $transaction_specific = $referral['generation_batch'];} ?>
                         </tr>
                         <!-- end -->
                     </tbody>
@@ -391,16 +392,9 @@ if(isset($_POST['generate'])){
     <!-- PHP For querying the codes -->
         <?php
             if(isset($_GET['tranNum'])){
-                // Dito yung code sa pag query ng codes
-
-                
-                echo '
-                    <script type="text/JavaScript">
-                        $(document).ready(function(){
-                            $(".viewCodeBtn").click();
-                        });
-                    </script>
-                ';
+                $trans_specific_select = "SELECT * FROM referral_codes WHERE generation_batch = $transaction_specific";
+                $trans_specific_query = mysqli_query($conn, $trans_specific_select);
+                $trans_specific_count = mysqli_num_rows($trans_specific_query);
             }
         ?>
     <!-- END -->
@@ -413,7 +407,7 @@ if(isset($_POST['generate'])){
                 <!-- Modal header -->
                 <div class="flex justify-between items-start p-4 rounded-t border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
-                        Codes for Transaction #1003001<br>
+                        Codes for Transaction <?php echo $trans_specific['generation_batch']; ?><br>
                         Date: 10/03/2022<br>
                         Member Name: Cedrick Orozo<br>
                         Code Type: Direct Invite<br>
@@ -429,7 +423,7 @@ if(isset($_POST['generate'])){
                     <ul class="space-y-1 max-w-md list-inside text-gray-800 text-lg text-center">
                         <li class="flex items-center">
                             <svg class="w-4 h-4 mr-1.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            DR10-QWER1234
+                            <?php echo $trans_specific['ref_code']; ?>
                         </li>
                         <li class="flex items-center">
                             <svg class="w-4 h-4 mr-1.5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
