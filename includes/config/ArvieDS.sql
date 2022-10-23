@@ -26,7 +26,6 @@ CREATE TABLE `accounts` (
   `id` int(60) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `sponsor` varchar(100) NOT NULL,
   `email_address` varchar(255) NOT NULL,
   `pass` varchar(255) NOT NULL,
   `contact_number` int(15) NOT NULL,
@@ -38,8 +37,11 @@ CREATE TABLE `accounts` (
   `tin_acct` varchar(255) NOT NULL,
   `sss_num` varchar(255) NOT NULL,
   `member_id` varchar(100) NOT NULL,
+  `number_basis` int(11) NOT NULL,
+  `sponsorName` varchar(255) NOT NULL,
+  `sponsor` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +51,10 @@ CREATE TABLE `accounts` (
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
 INSERT INTO `accounts` VALUES
-(1,'Kevin Roy','Marero','ADSkSD123','marerokevin@gmail.com','$2y$10$khQtNAeMr7dKJtiM5m49N.P4F5.KxekWmR.3bZwMiPTlGlTDay0fK',123123123,'2022-10-17 22:14:30','approved','userist','asd12-12345','Blk 6, Lt5 , Villa Monteverde Mulawin, Tanza, Cavite','123','123','ADS10-1');
+(3,'Cedrick James','Orozo','orozo.cedrick@gmail.com','$2y$10$i083mDChjXJZmV5KCEeZiujDy37EKbACzkWVlV7biUTcxJfjG8q46',123123123,'2022-10-23 15:38:28','approved','administ','DI10-pIZm-Tubl','123, bahay kubo, na munti','1231231','123123132','ADS2022-10-2',2,' Kevin Roy  Marero',NULL),
+(4,'John Arian','Malondras','malondras.arian@glory.hole','$2y$10$q5UytXeWlHjpGGMvS9CLWOn/B24HJDo2Zzmj.2pgLAFZjK2resGai',12312313,'2022-10-23 15:54:41','approved','userist','DI10-DW1d-RcbB','123, bahay kubo, na munti','123123123','123123123','ADS2022-10-3',3,' Cedrick James  Orozo','ADS2022-10-2'),
+(5,'Annie','Batumbakal','cedrick.james@glory.hole','$2y$10$v0m6Cxoy5W/Yeg2p41VbZOzSzTF/E15Wlh9JAsQgZlj6Pw36GxfXi',123123132,'2022-10-23 16:17:57','approved','userist','DI10-VzqN-KYgR','123, bahay kubo, na munti','123123123','123123123','ADS2022-10-4',4,' Cedrick James  Orozo','ADS2022-10-2'),
+(6,'Arvie','Admin','arvieadmin@gmail.com','$2y$10$jTe3GMdGIMRgT1XLcBgjVe/2hw1FrmEwPhmkeHys9hw.vSqdR0wt2',2147483647,'2022-10-17 21:36:49','approved','administ','asd12-12345','3 Verder, Tanza, Cavite','n/a','n/a','ADS22-10-6',6,'','n/a');
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,8 +169,10 @@ CREATE TABLE `referral_codes` (
   `generation_batch` varchar(255) NOT NULL,
   `transaction_id` int(255) NOT NULL AUTO_INCREMENT,
   `codetype` varchar(2) NOT NULL,
+  `count` int(2) NOT NULL,
+  `referrer_name` varchar(255) NOT NULL,
   PRIMARY KEY (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,62 +182,26 @@ CREATE TABLE `referral_codes` (
 LOCK TABLES `referral_codes` WRITE;
 /*!40000 ALTER TABLE `referral_codes` DISABLE KEYS */;
 INSERT INTO `referral_codes` VALUES
-('2022-10-21 15:58:09','Kevin Roy Marero','2022-10-21 15:58:09',NULL,'2022-10-21 15:58:09','to_redeem','DI10-jlkg-mKg8','ATTzDM7mbZorw6ejxi',1,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-ZP5M-sNwi','ATkxuEPmNKaLXVOI81',2,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-CXW5-Nsog','ATkxuEPmNKaLXVOI81',3,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-8RlB-0bej','ATkxuEPmNKaLXVOI81',4,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-vVFN-6H8F','ATkxuEPmNKaLXVOI81',5,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-0v2i-uCIx','ATkxuEPmNKaLXVOI81',6,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-fJHx-bwDi','ATkxuEPmNKaLXVOI81',7,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-FqLX-Ln9H','ATkxuEPmNKaLXVOI81',8,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-UMJL-4vKP','ATkxuEPmNKaLXVOI81',9,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-rexB-seUz','ATkxuEPmNKaLXVOI81',10,''),
-('2022-10-21 15:58:31','Kevin Roy Marero','2022-10-21 15:58:31',NULL,'2022-10-21 15:58:31','to_redeem','DI10-k7OX-0lW3','ATkxuEPmNKaLXVOI81',11,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-vP2j-riEm','ATKSdFwuhVMRot8ZO1',12,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-Ksw8-Y6E1','ATKSdFwuhVMRot8ZO1',13,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-KOxP-BG6L','ATKSdFwuhVMRot8ZO1',14,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-lgoZ-4ejT','ATKSdFwuhVMRot8ZO1',15,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-6Ctc-A7Y3','ATKSdFwuhVMRot8ZO1',16,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-kAa2-a5it','ATKSdFwuhVMRot8ZO1',17,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-mauC-Klfm','ATKSdFwuhVMRot8ZO1',18,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-F5SA-EoQd','ATKSdFwuhVMRot8ZO1',19,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-Yyhu-LH3K','ATKSdFwuhVMRot8ZO1',20,''),
-('2022-10-22 07:21:09','Kevin Roy Marero','2022-10-22 07:21:09',NULL,'2022-10-22 07:21:09','to_redeem','RA10-DPvT-WzTh','ATKSdFwuhVMRot8ZO1',21,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-RMoU-na8N','AT3nqJkIh04Y1wKFT8',22,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-w9h7-p4eW','AT3nqJkIh04Y1wKFT8',23,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-ubv8-6qU3','AT3nqJkIh04Y1wKFT8',24,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-8SsA-uv9a','AT3nqJkIh04Y1wKFT8',25,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-YwJX-XxBJ','AT3nqJkIh04Y1wKFT8',26,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-TeXQ-qyPQ','AT3nqJkIh04Y1wKFT8',27,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-JOEt-Q483','AT3nqJkIh04Y1wKFT8',28,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-4eWx-8pYB','AT3nqJkIh04Y1wKFT8',29,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-0WOI-fk7t','AT3nqJkIh04Y1wKFT8',30,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-jT6k-Df2r','AT3nqJkIh04Y1wKFT8',31,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-N2rR-qhU6','AT3nqJkIh04Y1wKFT8',32,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-hoQ0-sQKb','AT3nqJkIh04Y1wKFT8',33,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-Hjfp-wLoP','AT3nqJkIh04Y1wKFT8',34,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-2aij-Uu2m','AT3nqJkIh04Y1wKFT8',35,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-4l3E-HdoJ','AT3nqJkIh04Y1wKFT8',36,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-6oRB-Yojm','AT3nqJkIh04Y1wKFT8',37,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-ot4m-qOpj','AT3nqJkIh04Y1wKFT8',38,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-nzCh-Ggs2','AT3nqJkIh04Y1wKFT8',39,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-AP5b-Ewl1','AT3nqJkIh04Y1wKFT8',40,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-N6WH-pvIE','AT3nqJkIh04Y1wKFT8',41,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-dEjA-uJtn','AT3nqJkIh04Y1wKFT8',42,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-m9lc-oIRW','AT3nqJkIh04Y1wKFT8',43,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-mXTD-mJd5','AT3nqJkIh04Y1wKFT8',44,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-CEc2-0qQA','AT3nqJkIh04Y1wKFT8',45,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-4gpE-kDjA','AT3nqJkIh04Y1wKFT8',46,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-OjQH-sHtN','AT3nqJkIh04Y1wKFT8',47,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-YyOP-rZD3','AT3nqJkIh04Y1wKFT8',48,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-qahV-P6lZ','AT3nqJkIh04Y1wKFT8',49,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-Wdv0-2imG','AT3nqJkIh04Y1wKFT8',50,''),
-('2022-10-22 07:25:29','Kevin Roy Marero','2022-10-22 07:25:29',NULL,'2022-10-22 07:25:29','to_redeem','DI10-9dFG-HZiW','AT3nqJkIh04Y1wKFT8',51,''),
-('2022-10-22 10:46:18','Kevin Roy Marero','2022-10-22 10:46:18',NULL,'2022-10-22 10:46:18','to_redeem','DI10-fBTr-hwXj','ATxDJRZMScTnCikq6Y',52,''),
-('2022-10-22 12:13:13','Kevin Roy Marero','2022-10-22 12:13:13',NULL,'2022-10-22 12:13:13','to_redeem','DI10-fDq2-pwDu','AT10-cPg3n67kXLUIfuA0',53,'DI'),
-('2022-10-22 12:14:43','Kevin Roy Marero','2022-10-22 12:14:43',NULL,'2022-10-22 12:14:43','to_redeem','DI10-kj9P-MLPi','AT10-CbGoyY9q31DfxRSB',54,'DI'),
-('2022-10-22 12:14:59','Kevin Roy Marero','2022-10-22 12:14:59',NULL,'2022-10-22 12:14:59','to_redeem','RA10-yGev-9wjK','AT10-SkdX2HfB6KEMaeNU',55,'RA'),
-('2022-10-22 12:15:05','Kevin Roy Marero','2022-10-22 12:15:05',NULL,'2022-10-22 12:15:05','to_redeem','RB10-40Ri-izdG','AT10-M9O1X6yCzpQo4Ur0',56,'RB');
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20','ADS2022-10-1','2022-10-23 15:23:20','used','DI10-YWzh-fWwv','AT10-KG3FIf79XSl4gUhy',1,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20','ADS2022-10-2','2022-10-23 15:23:20','used','DI10-pIZm-Tubl','AT10-KG3FIf79XSl4gUhy',2,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-9v8L-dCwx','AT10-KG3FIf79XSl4gUhy',3,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-dP7a-pRjB','AT10-KG3FIf79XSl4gUhy',4,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-vNJ4-MDmw','AT10-KG3FIf79XSl4gUhy',5,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-H6v9-L9uv','AT10-KG3FIf79XSl4gUhy',6,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-gaHd-F0Eg','AT10-KG3FIf79XSl4gUhy',7,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-Suja-NMGv','AT10-KG3FIf79XSl4gUhy',8,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-E3Vn-5J8U','AT10-KG3FIf79XSl4gUhy',9,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-5xn6-IB9a','AT10-KG3FIf79XSl4gUhy',10,'DI',10,'Kevin Roy Marero'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29','ADS2022-10-3','2022-10-23 15:52:29','used','DI10-DW1d-RcbB','AT10-gyhc9EzlK0PFU6vt',11,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29','ADS2022-10-4','2022-10-23 15:52:29','used','DI10-VzqN-KYgR','AT10-gyhc9EzlK0PFU6vt',12,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-5E6j-VDkz','AT10-gyhc9EzlK0PFU6vt',13,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-seYX-k0BC','AT10-gyhc9EzlK0PFU6vt',14,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-WQYX-IUa5','AT10-gyhc9EzlK0PFU6vt',15,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-Kjtr-keoE','AT10-gyhc9EzlK0PFU6vt',16,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-a0Lt-mPVv','AT10-gyhc9EzlK0PFU6vt',17,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-sJdr-IxiG','AT10-gyhc9EzlK0PFU6vt',18,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-xqGr-2vFZ','AT10-gyhc9EzlK0PFU6vt',19,'DI',10,'Cedrick James Orozo'),
+('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-d1s5-XOAF','AT10-gyhc9EzlK0PFU6vt',20,'DI',10,'Cedrick James Orozo');
 /*!40000 ALTER TABLE `referral_codes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,12 +213,11 @@ DROP TABLE IF EXISTS `totalbalance`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `totalbalance` (
-  `totalBalanceId` int(20) NOT NULL AUTO_INCREMENT,
-  `userID` int(30) NOT NULL,
+  `totalBalanceId` int(20) NOT NULL,
+  `userID` varchar(65) NOT NULL,
   `userName` varchar(100) NOT NULL,
-  `totalBalance` int(20) NOT NULL,
-  PRIMARY KEY (`totalBalanceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3;
+  `totalBalance` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,13 +226,6 @@ CREATE TABLE `totalbalance` (
 
 LOCK TABLES `totalbalance` WRITE;
 /*!40000 ALTER TABLE `totalbalance` DISABLE KEYS */;
-INSERT INTO `totalbalance` VALUES
-(27,2,'cedrickjames.orozo@cvsu.edu.ph',1000),
-(28,11,'marero@gmail.com',520),
-(39,12,'cedrickorozo@gmail.com',0),
-(40,17,'arian@gmail.com',0),
-(41,0,'cedrickjames.orozo@cvsu.edu.ph',100),
-(42,0,'marerokevin@gmail.com',100);
 /*!40000 ALTER TABLE `totalbalance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,21 +237,20 @@ DROP TABLE IF EXISTS `transaction`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transaction` (
-  `transactionId` int(50) NOT NULL AUTO_INCREMENT,
+  `transactionId` int(50) NOT NULL,
   `type` varchar(50) NOT NULL,
   `userName` varchar(50) NOT NULL,
-  `userId` int(50) NOT NULL,
+  `userId` varchar(50) NOT NULL,
   `inviteName` varchar(50) NOT NULL,
   `inviteeName` varchar(50) NOT NULL,
   `packageType` varchar(200) NOT NULL,
-  `codeOwner` varchar(200) NOT NULL COMMENT 'indicates the user of the code',
-  `codeOwnerId` varchar(200) NOT NULL COMMENT 'this indicates the id of the code user',
+  `codeOwner` varchar(200) NOT NULL,
+  `codeOwnerId` varchar(200) NOT NULL,
   `addedAmount` int(50) NOT NULL,
   `TotalBalance` int(50) NOT NULL,
   `addedPoints` int(50) NOT NULL,
-  `totalPoints` int(50) NOT NULL,
-  PRIMARY KEY (`transactionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb3;
+  `totalPoints` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,74 +259,6 @@ CREATE TABLE `transaction` (
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` VALUES
-(69,'Direct Referral','cedrickjames.orozo@cvsu.edu.ph',2,'Cedrick James Orozo','James Orozo','','','',500,500,0,0),
-(70,'Indirect Referral','Kevin Roy marero',11,'Cedrick James Orozo','James Orozo','','','',10,510,0,0),
-(73,'Direct Referral','cedrickjames.orozo@cvsu.edu.ph',13,'q e','James Orozo','','','',500,1000,0,0),
-(74,'Indirect Referral','Kevin Roy marero',11,'q e','James Orozo','','','',10,520,0,0),
-(75,'Rebates','',11,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',80,760,0,0),
-(76,'Rebates','',17,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,90,0,0),
-(77,'Rebates','',1,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,60,0,0),
-(78,'Rebates','',2,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,60,0,0),
-(79,'Rebates','',3,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,60,0,0),
-(80,'Rebates','',4,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',20,40,0,0),
-(81,'Rebates','marero@gmail.com',11,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',80,840,0,0),
-(82,'Rebates','arian@gmail.com',17,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,120,0,0),
-(83,'Rebates','test@glory.com.ph',1,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,90,0,0),
-(84,'Rebates','test@glory.com',2,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,90,0,0),
-(85,'Rebates','readme@gmail.com',3,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',30,90,0,0),
-(86,'Rebates','marerokevin@gmail.com',4,'','','RA','cedrickjames.orozo@cvsu.edu.ph','13',20,60,0,0),
-(87,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,200,0,0),
-(88,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,120,0,0),
-(89,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,120,0,0),
-(90,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,120,0,0),
-(91,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,90,0,0),
-(92,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,280,0,0),
-(93,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,150,0,0),
-(94,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,150,0,0),
-(95,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,150,0,0),
-(96,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,120,0,0),
-(97,'Points','marero@gmail.com',11,'','','RA','','',0,0,1,3),
-(98,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,360,0,0),
-(99,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,180,0,0),
-(100,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,180,0,0),
-(101,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,180,0,0),
-(102,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,150,0,0),
-(103,'Points','marero@gmail.com',11,'','','RA','','',0,0,1,4),
-(104,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,440,0,0),
-(105,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,210,0,0),
-(106,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,210,0,0),
-(107,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,210,0,0),
-(108,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,180,0,0),
-(109,'Points','marero@gmail.com',11,'','','RA','','',0,0,1,5),
-(110,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,520,0,0),
-(111,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,240,0,0),
-(112,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,240,0,0),
-(113,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,240,0,0),
-(114,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,210,0,0),
-(115,'Points','marero@gmail.com',11,'','','RA','','',0,0,1,6),
-(116,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,600,0,0),
-(117,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,270,0,0),
-(118,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,270,0,0),
-(119,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,270,0,0),
-(120,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,240,0,0),
-(121,'Points','marero@gmail.com',11,'','','RA','','',0,0,1,7),
-(122,'Rebates','arian@gmail.com',17,'','','RA','marero@gmail.com','11',80,680,0,0),
-(123,'Rebates','test@glory.com.ph',1,'','','RA','marero@gmail.com','11',30,300,0,0),
-(124,'Rebates','test@glory.com',2,'','','RA','marero@gmail.com','11',30,300,0,0),
-(125,'Rebates','readme@gmail.com',3,'','','RA','marero@gmail.com','11',30,300,0,0),
-(126,'Rebates','marerokevin@gmail.com',4,'','','RA','marero@gmail.com','11',30,270,0,0),
-(127,'Direct Referral','cedrickjames.orozo@cvsu.edu.ph',0,'','Kevin Roy Marero','','','',500,500,0,0),
-(128,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,10,0,0),
-(129,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,20,0,0),
-(130,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,30,0,0),
-(131,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,40,0,0),
-(132,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,50,0,0),
-(133,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,60,0,0),
-(134,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,70,0,0),
-(135,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,80,0,0),
-(136,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,90,0,0),
-(137,'Indirect Referral','Kevin Roy Marero',0,'','Kevin Roy Marero','','','',10,100,0,0);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -377,4 +271,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-22 16:03:28
+-- Dump completed on 2022-10-23 23:21:51
