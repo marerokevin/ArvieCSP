@@ -49,39 +49,39 @@ if(isset($_POST['enterCode'])){
                     $sqlUpdateCodeOwner= "UPDATE `generated_code` SET `userNameOfCodeOwner`='$email',`userIdOfCodeOwner`='$id' WHERE `code` = '$EnteredCode'";
                     mysqli_query($conn, $sqlUpdateCodeOwner);
                     // echo "You have successfully enter the code!";
-                    $sqlSelectRebatesPoints= "SELECT * FROM `rebates_points` WHERE `user_id` = '$id'";
+                    $sqlSelectRebatesPoints= "SELECT * FROM `rebates_points` WHERE `user_id` = '$member_id'";
                     $resultSelectRPoints = mysqli_query($conn, $sqlSelectRebatesPoints);
                     $num_of_select_points = mysqli_num_rows($resultSelectRPoints);
                     if($num_of_select_points==0){
-                        $sqlinsertPoints= "INSERT INTO `rebates_points`(`user_id`, `email_address`, `pointsEarned`) VALUES ('$id','$email','1')";
+                        $sqlinsertPoints= "INSERT INTO `rebates_points`(`user_id`, `email_address`, `pointsEarned`) VALUES ('$member_id','$email','1')";
                         mysqli_query($conn, $sqlinsertPoints);
-                          $sqlinsertTransacPoints= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `addedPoints`, `totalPoints`)VALUES ('Points','$email','$id','$type','1','1')";
+                          $sqlinsertTransacPoints= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `addedPoints`, `totalPoints`)VALUES ('Points','$email','$member_id','$type','1','1')";
                                 mysqli_query($conn, $sqlinsertTransacPoints);
                     }
                     else{
-                        $sqlSelectRebatesPoints2= "SELECT * FROM `rebates_points` WHERE `user_id` = '$id'";
+                        $sqlSelectRebatesPoints2= "SELECT * FROM `rebates_points` WHERE `user_id` = '$member_id'";
                         $resultSelectRPoints2 = mysqli_query($conn, $sqlSelectRebatesPoints2);
 
                         while($userRow = mysqli_fetch_assoc($resultSelectRPoints2))
                         {
                         $pointsEarned = $userRow['pointsEarned'];
                         $pointsEarned++;
-                        $sqlUpdatePointsEarned= "UPDATE `rebates_points` SET `pointsEarned`='$pointsEarned' WHERE `user_id` = '$id'";
+                        $sqlUpdatePointsEarned= "UPDATE `rebates_points` SET `pointsEarned`='$pointsEarned' WHERE `user_id` = '$member_id'";
                         mysqli_query($conn, $sqlUpdatePointsEarned);
-                        $sqlinsertTransacPoints= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `addedPoints`, `totalPoints`)VALUES ('Points','$email','$id','$type','1','$pointsEarned')";
+                        $sqlinsertTransacPoints= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `addedPoints`, `totalPoints`)VALUES ('Points','$email','$member_id','$type','1','$pointsEarned')";
                         mysqli_query($conn, $sqlinsertTransacPoints);
                         }                
                     }
 
-                    $sponsor=$id;
+                    $sponsor=$member_id;
                     for ($i = 1; $i<=10; $i++)
                     {                  
                     //Update sponsor total balance
-                    $sqlUserSponsor= "SELECT * FROM `invites` WHERE `idOfInvite` = '$sponsor';";
+                    $sqlUserSponsor= "SELECT * FROM `accounts` WHERE `member_id` = '$sponsor';";
                     $resultUserSponsor = mysqli_query($conn, $sqlUserSponsor);
                     while($userRow = mysqli_fetch_assoc($resultUserSponsor))
                         {
-                            $inviteeID = $userRow['inviteeID'];
+                            $inviteeID = $userRow['sponsor'];
                                 
                             $sqlGetTotalBalance= "SELECT * FROM `totalbalance` WHERE `userID` = '$inviteeID'";
                             $resultTotalBalance = mysqli_query($conn, $sqlGetTotalBalance);
@@ -94,18 +94,18 @@ if(isset($_POST['enterCode'])){
                             if($i==1)
                             {
                                 $updatedBalance = $totalBalance + 80;
-                                $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$id','80','$updatedBalance')";
+                                $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','80','$updatedBalance')";
                                 mysqli_query($conn, $sqlinsertTransact);
 
                             }
                             else if($i==2 || $i==3 || $i==4 || $i==5){
                             $updatedBalance = $totalBalance + 30;
-                            $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$id','30','$updatedBalance')";
+                            $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','30','$updatedBalance')";
                             mysqli_query($conn, $sqlinsertTransact);
                             }
                             else{
                             $updatedBalance = $totalBalance + 20;
-                            $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$id','20','$updatedBalance')";
+                            $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','20','$updatedBalance')";
                             mysqli_query($conn, $sqlinsertTransact);
                             }
                             $sqlAddBalance= "UPDATE `totalbalance` SET `totalBalance`='$updatedBalance' WHERE `userID` = '$inviteeID'";
@@ -126,7 +126,7 @@ if(isset($_POST['enterCode'])){
 
 // getiing the points\
 $totalPoints=0;
-$sqlSelectRebatesPoints3= "SELECT * FROM `rebates_points` WHERE `user_id` = '$id'";
+$sqlSelectRebatesPoints3= "SELECT * FROM `rebates_points` WHERE `user_id` = '$member_id'";
 $resultSelectRPoints3 = mysqli_query($conn, $sqlSelectRebatesPoints3);
 while($userRow = mysqli_fetch_assoc($resultSelectRPoints3)){
     $totalPoints = $userRow['pointsEarned'];
@@ -151,7 +151,7 @@ function fetch_transaction($db, $tableNameTransaction, $columnsTransaction){
 }else{
 $columnName = implode(", ", $columnsTransaction);
 $member_id = $_SESSION["member_id"];
-$query = "SELECT * FROM `transaction` WHERE `userId` = '$member_id'";
+$query = "SELECT * FROM `transaction` WHERE `userId` = '$member_id' ORDER BY `transactionId` DESC";
 
 //  SELECT * FROM `usertask` WHERE `username` = 'cjorozo';
 $result = $db->query($query);
@@ -322,6 +322,25 @@ return $msg;
         </div>
 
         <div class=" user-dashboard-content-container pt-24 px-6 pb-6 bg-emerald-100 h-screen">
+        <!-- <div class="grid grid-rows-2 md:grid-cols-2 gap-4 bg-gradient">
+  <div class="...">01</div>
+  <div class="...">02</div>
+
+</div> -->
+        <!-- <div class="grid-rows-2 p-3 h-sm-25 bg-success balance-container ">
+            <div class="col-12 col-sm-6 order-2 order-sm-1">
+                <h5 class="fs-5" id="totalIncomeLabel">Total Income Balance</h5>
+
+                <h1 class="fw-bold fs-sm-8">P 100,000</h1>
+
+            </div>
+            <div class="col-12 col-sm-6 order-1 order-sm-2">
+                <h8>Overall Income</h8>
+                <h3>P 215, 340</h3>
+            </div>
+
+        </div> -->
+
             <!-- Top Content -->
             <div class="flex flex-col lg:flex-row h-56 lg:h-40 xl:h-48 bg-gradient rounded-2xl">
                 <div class="lg:w-1/2">
