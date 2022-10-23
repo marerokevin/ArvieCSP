@@ -74,7 +74,7 @@ date_default_timezone_set("Asia/Singapore");
 
 
                     if ($success) { //Just to confirm if may nainsert, and nag success.
-                        $sqlInsertUserInitialBalance= "INSERT INTO `totalbalance`(`userID`, `userName`, `totalBalance`) VALUES ('$member_id','$email_address','0');";
+                        $sqlInsertUserInitialBalance= "INSERT INTO `totalbalance`(`userID`, `userName`, `totalBalance`) VALUES ('$member_id','$email_address','0')";
                         mysqli_query($conn, $sqlInsertUserInitialBalance);
 
                         $create_user_select_name = "SELECT * FROM `accounts` WHERE `member_id` = '$referrer'";
@@ -152,7 +152,7 @@ date_default_timezone_set("Asia/Singapore");
                            
                         }
                         echo "<script> alert('You are now registered!')</script>";
-                        // header("location: ./login.php");
+                        header("location: ./login.php");
                     }
                     else{
                         echo "<script> alert('There is an error with adding account')</script>";

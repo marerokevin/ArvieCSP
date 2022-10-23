@@ -34,13 +34,16 @@
             </div>
             <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
             <li>
-                <a href="../user/index.php" class="block py-2 px-4 hover:bg-gray-200 bg-gray-300">Dashboard</a>
+                <a href="../user/index.php" id="header_dashboard" class="block py-2 px-4 hover:bg-gray-200">Dashboard</a>
             </li>
             <li>
-                <a href="#" class="block py-2 px-4 hover:bg-gray-200">Edit Profile</a>
+                <a href="./members.php" id="header_members" class="lg:hidden block py-2 px-4 hover:bg-gray-200">Members</a>
             </li>
             <li>
-                <a href="#" class="block py-2 px-4 hover:bg-gray-200">Earnings</a>
+                <a href="#" id="header_request" class="lg:hidden block py-2 px-4 hover:bg-gray-200">Request Payout</a>
+            </li>
+            <li>
+                <a href="#" id="header_edit" class="lg:hidden block py-2 px-4 hover:bg-gray-200">Edit Profile</a>
             </li>
             </ul>
             <div class="py-1">

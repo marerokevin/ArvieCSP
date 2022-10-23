@@ -16,11 +16,13 @@
     <script src="./js/jquery-3.6.1.min.js"></script>
 </head>
 <body class="h-screen w-screen">
+
     <?php include_once "./header.php"; ?>
+
     
     <div class="container bg-white relative top-20 mx-auto w-11/12 max-w-sm md:max-w-xl">
         <div class="container shadow-xl p-5 rounded-lg">
-            <!-- <h1 class="text-emerald-800 text-2xl text-center mb-5">Welcome to<br>Arvie Direct Sales</h1> -->
+            <h1 class="text-emerald-800 text-2xl text-center mb-5">Welcome to<br>Arvie Direct Sales</h1>
             <hr>
 
             <!-- Error Message (Normally Hidden)-->
