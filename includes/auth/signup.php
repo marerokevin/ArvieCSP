@@ -67,11 +67,11 @@ date_default_timezone_set("Asia/Singapore");
                         $lnameNaginvite1=$userRow['last_name'];
 
                     }
-                    $create_user_select = "INSERT INTO `accounts`(`first_name`, `last_name`, `referralId`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `homeaddress`, `tin_acct`, `sss_num`, `member_id`, `number_basis`) VALUES ('$first_name', '$last_name','$member_id','$referrer',' $fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number',current_timestamp,'approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num', '$lastId')";
+                    $create_user_select = "INSERT INTO `accounts`(`first_name`, `last_name`, `member_id`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`) VALUES ('$first_name', '$last_name', '$member_id', '$referrer',' $fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number',current_timestamp,'approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num', '$lastId')";
                     $success = mysqli_query($conn, $create_user_select);
 
                     if ($success) { //Just to confirm if may nainsert, and nag success.
-                        $sqlInsertUserInitialBalance= "INSERT INTO `totalbalance`(`userID`, `userName`, `totalBalance`) VALUES ('$member_id','$email_address','0');";
+                        $sqlInsertUserInitialBalance= "INSERT INTO `totalbalance`(`userID`, `userName`, `totalBalance`) VALUES ('$member_id','$email_address','0')";
                         mysqli_query($conn, $sqlInsertUserInitialBalance);
 
                         $create_user_select_name = "SELECT * FROM `accounts` WHERE `member_id` = '$referrer'";
@@ -149,7 +149,7 @@ date_default_timezone_set("Asia/Singapore");
                            
                         }
                         echo "<script> alert('You are now registered!')</script>";
-                        // header("location: ./login.php");
+                        header("location: ./login.php");
                     }
                    
                 }
