@@ -67,7 +67,10 @@ date_default_timezone_set("Asia/Singapore");
                         $lnameNaginvite1=$userRow['last_name'];
 
                     }
-                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`) VALUES ('$member_id','$first_name','$last_name','$referrer','$fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number','current_timestamp','approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num','$lastId')";
+
+                    //Change this format when deployed
+                    $refferalLink = "http://localhost/ArvieCSP/signup.php?arviecsp=$member_id";
+                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`, `refferalLink`) VALUES ('$member_id','$first_name','$last_name','$referrer','$fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number','current_timestamp','approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num','$lastId','$refferalLink')";
                     $success = mysqli_query($conn, $create_user_select);
 
                
@@ -174,4 +177,7 @@ date_default_timezone_set("Asia/Singapore");
         echo "<script> alert('This code does not exist or already been used.')</script>";
     }
 }
+
+
+
 ?>
