@@ -64,7 +64,7 @@ if(isset($_POST['register'])){
 
                     //Change this format when deployed
                     $referralLink = "http://localhost/ArvieCSP/signup.php?arviecsp=$member_id";
-                    $create_user_select = "INSERT INTO `accounts` (`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`, `referralLink`) VALUES ('$member_id', '$first_name', '$last_name', '$referrer', '$fnameNaginvite1  $lnameNaginvite1', '$email_address', '$hash', '$contact_number', current_timestamp, 'approved', 'userist', '$ref_code', '$homeaddress', '$tin_acct', '$sss_num', '$lastId', '$referralLink')";
+                    $create_user_select = "INSERT INTO `accounts` (`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`, `referralLink`) VALUES ('$member_id', '$first_name', '$last_name', '$referrer', '$fnameNaginvite1  $lnameNaginvite1', '$email_address', '$hash', '$contact_number', current_timestamp(), 'approved', 'userist', '$ref_code', '$homeaddress', '$tin_acct', '$sss_num', '$lastId', '$referralLink')";
                     $success = mysqli_query($conn, $create_user_select);
 
                     if ($success) { //Just to confirm if may nainsert, and nag success.
