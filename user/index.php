@@ -17,10 +17,11 @@ $SelectInfo ="SELECT * FROM `accounts` WHERE `member_id` = '$member_id';";
 $resultInfo= mysqli_query($conn, $SelectInfo);
 $fname="";
 $lname="";
+$referralLink="";
 while($userRow = mysqli_fetch_assoc($resultInfo)){
     $fname = $userRow['first_name'];
     $lname = $userRow['last_name'];
-
+    $referralLink = $userRow['referralLink'];
 
 }
 $SelectPresentBalance ="SELECT * FROM `totalbalance` WHERE `userID` = '$member_id';";
@@ -49,7 +50,7 @@ if(isset($_POST['enterCode'])){
                     echo "<script>alert('This is code is already used. Please enter another code')</script>";
                 }
                 else{
-                    $sqlUpdateCodeOwner= "UPDATE `generated_code` SET `userNameOfCodeOwner`='$email',`userIdOfCodeOwner`='$id' WHERE `code` = '$EnteredCode'";
+                    $sqlUpdateCodeOwner= "UPDATE `generated_code` SET `userNameOfCodeOwner`='$email',`userIdOfCodeOwner`='$member_id' WHERE `code` = '$EnteredCode'";
                     mysqli_query($conn, $sqlUpdateCodeOwner);
                     // echo "You have successfully enter the code!";
                     $sqlSelectRebatesPoints= "SELECT * FROM `rebates_points` WHERE `user_id` = '$member_id'";
@@ -360,6 +361,10 @@ return $msg;
                     <div class="h-16">
                         <div class="font-medium text-md sm:text-lg xl:text-xl">Points Earned</div>
                         <div class="row-span-2 text-2xl xl:text-3xl font-black"><?php echo $totalPoints;?></div>
+                        <div class="row-span-2 text-lg sm:text-xl lg:text-xl xl:text-2xl font-medium">Referral Link</div>
+                        <div class="row-span-2 text-lg sm:text-xl lg:text-xl xl:text-sm font-medium">http://localhost/ArvieCSP/signup.php?arviecsp=<?php echo $member_id; ?></div>
+
+
                     </div>
 
                     <div class="h-16 pt-2 ml-6">
@@ -437,18 +442,18 @@ return $msg;
                         </div>
 
                         <?php 
-                                        //}elseif($type=="Points"){
+                                        }elseif($type=="Points"){
                         ?>
                         <!-- Pag from rebate -->
-                        <!-- <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-2">
+                        <div class="w-full h-28 lg:h-20 bg-white mt-3 rounded-xl grid grid-cols-5 grid-rows-2">
                             <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Category</div>
                             <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium">Type</div>
                             <div class="self-end text-center text-xl md:text-sm xl:text-base font-medium"></div>
                             <div class="row-span-2 col-span-2 self-center text-end mr-5 text-4xl md:text-2xl xl:text-3xl font-black">+ 1</div>
                             <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold text-orange-600">Points</div>
-                            <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold"><?php //if($package == 'RA'){ echo'Botanical';}else {echo 'Kapenato';} ?></div>
+                            <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold"><?php if($package == 'RA'){ echo'Botanical';}else {echo 'Kapenato';} ?></div>
                             <div class="self-start text-center text-2xl md:text-lg xl:text-xl font-bold"></div>
-                        </div> -->
+                        </div>
 
                         <?php 
                                         }elseif($type=="Withdrawal"){
@@ -464,7 +469,8 @@ return $msg;
                         </div>
 
                         <?php 
-                                        }}}else{
+                                        }
+                                    }}else{
 
                                         }
                         ?>

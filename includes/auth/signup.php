@@ -7,7 +7,7 @@ date_default_timezone_set("Asia/Singapore");
 
     $referrer_check = $_POST['sponsor'];
     $ref_code_check = $_POST['ref_code'];
-    $referralcheck = "SELECT referrer, ref_code FROM `referral_codes` WHERE `referrer` = '$referrer_check' AND `ref_code` = '$ref_code_check' AND `status` = 'to_redeem'";
+    $referralcheck = "SELECT referrer, ref_code FROM `referral_codes` WHERE `ref_code` = '$ref_code_check' AND `status` = 'to_redeem'";
     $resultReferral = mysqli_query($conn, $referralcheck);
     $referral_count = mysqli_num_rows($resultReferral);
 
@@ -70,7 +70,7 @@ date_default_timezone_set("Asia/Singapore");
 
                     //Change this format when deployed
                     $refferalLink = "http://localhost/ArvieCSP/signup.php?arviecsp=$member_id";
-                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`, `refferalLink`) VALUES ('$member_id','$first_name','$last_name','$referrer','$fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number','current_timestamp','approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num','$lastId','$refferalLink')";
+                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`) VALUES ('$member_id','$first_name','$last_name','$referrer','$fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number',current_timestamp,'approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num','$lastId')";
                     $success = mysqli_query($conn, $create_user_select);
 
                

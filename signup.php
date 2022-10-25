@@ -112,7 +112,7 @@
 if(isset($_GET['arviecsp'])){
     $sponsorID = $_GET['arviecsp'];
 
-    echo "<script> document.getElementById('sponsorId-input').value=$sponsorID</script>";
+    echo "<script> document.getElementById('sponsorId-input').value='$sponsorID'</script>";
 }
 ?>
     <script>
