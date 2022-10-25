@@ -4,8 +4,8 @@ date_default_timezone_set("Asia/Singapore");
 
 if(isset($_POST['register'])){
 
-    $referrer_check = $_POST['sponsor'];
     $ref_code_check = $_POST['ref_code'];
+    $referrer_check = $_GET["arviecsp"];
     $referralcheck = "SELECT referrer, ref_code FROM `referral_codes` WHERE `referrer` = '$referrer_check' AND `ref_code` = '$ref_code_check' AND `status` = 'to_redeem'";
     $resultReferral = mysqli_query($conn, $referralcheck);
     $referral_count = mysqli_num_rows($resultReferral);
@@ -32,7 +32,7 @@ if(isset($_POST['register'])){
 
             $member_id = $code.$getYearNow."-".$getMonthNow."-".$lastId;
             
-            $referrer = $_POST["sponsor"];
+            $referrer = $_GET["arviecsp"];
             $ref_code = $_POST["ref_code"];
             $first_name = $_POST["first_name"];
             $last_name = $_POST["last_name"];
