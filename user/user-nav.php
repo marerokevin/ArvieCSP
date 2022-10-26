@@ -9,7 +9,7 @@
                 <b class="table-cell align-bottom whitespace-nowrap"><?php echo $fname." ". $lname;?></b>
             </div>
             <div class="col-span-3 pl-2 md:text-base">
-                <span class=""><?php echo $_SESSION["id"]; ?></span>
+                <span class=""><?php echo $_SESSION["member_id"]; ?></span>
             </div>
         </div>
     </div>
