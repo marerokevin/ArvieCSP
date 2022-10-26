@@ -278,15 +278,16 @@ if(isset($_POST['generate'])){
                         <tr>
                             <th data-priority="1">Date</th>
                             <th data-priority="2">Tran. No.</th>
-                            <th data-priority="3">Member Name</th>
+                            <th data-priority="3">Code</th>
                             <th data-priority="4">Type</th>
-                            <th data-priority="5">Code Count</th>
-                            <th data-priority="6">View</th>
+                            <th data-priority="5">Status</th>
+                            <th data-priority="6">Used by</th>
+                            <!-- <th data-priority="7">View</th> -->
                         </tr>
                     </thead>
                     <tbody>
                     <?php
-                    $referral_list = "SELECT DISTINCT generation_batch, gen_date, referrer, codetype, count, referrer_name from referral_codes"; //select distinct generation_batch/transaction number
+                    $referral_list = "SELECT generation_batch, gen_date, referee, codetype, ref_code, status from referral_codes"; //select distinct generation_batch/transaction number
                     $referral_query = mysqli_query($conn, $referral_list);
                     while ($referral = mysqli_fetch_assoc($referral_query)) {
                         $transaction_number = $referral['generation_batch'];
@@ -294,7 +295,7 @@ if(isset($_POST['generate'])){
                         <tr>
                             <td class="text-center"><?php echo $referral['gen_date']; ?></td>
                             <td class="text-center"><?php echo $referral['generation_batch']; ?></td>
-                            <td class="text-center"><?php echo $referral['referrer_name']; ?></td>
+                            <td class="text-center"><?php echo $referral['ref_code']; ?></td>
                             <td class="text-center">
                                 <?php if ($referral['codetype'] == "DI") {
                                         echo "Direct Sales";
@@ -304,9 +305,27 @@ if(isset($_POST['generate'])){
                                         echo "Kapenato & Cereal";
                                     }?>
                             </td>
-                            <td class="text-center"><?php echo $referral['count']; ?></td>
-                            <td class="text-center">
-                                <button class="text-blue-500" type="submit" name="trannum" data-tran-num="<?php $transaction_number; ?>" type="button" data-modal-toggle="viewModal">
+                            <td class="text-center"><?php if ($referral['status'] == "used") {
+                                        echo "Used";
+                                    } elseif ($referral['status'] == "to_redeem") {
+                                        echo "To Redeem";
+                                    } ?></td>
+
+                            <td class="text-center"><?php 
+                                $xxxuser = $referral['referee'];
+                                $staytus = $referral['status'];
+                                echo "<script> console.log('$xxxuser') </script>";
+                                $userxxx = "SELECT first_name, last_name FROM accounts WHERE member_id = '$xxxuser'";
+                                $user_query = mysqli_query($conn, $userxxx);
+                                $user_count = mysqli_num_rows($user_query);
+                                    while ($user123 = mysqli_fetch_assoc($user_query)) {
+                                        if ($user_count == 1) {
+                                            echo $user123['first_name']; echo " "; echo $user123['last_name'];
+                                        }
+                                    }
+                                ?></td>
+                            <!-- <td class="text-center">
+                                <button class="text-blue-500" type="submit" name="trannum" data-tran-num="" type="button" data-modal-toggle="viewModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 512 512" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
                                             <path d="M2486 5097 c-70 -40 -76 -63 -76 -302 0 -236 6 -260 69 -302 71 -48 175 -20 213 57 15 30 18 65 18 243 0 240 -8 270 -80 307 -51 26 -95 25 -144 -3z"/>
@@ -320,7 +339,7 @@ if(isset($_POST['generate'])){
                                         </g>
                                     </svg>
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                         <?php } ?>
                         <!-- end -->
@@ -394,14 +413,7 @@ if(isset($_POST['generate'])){
                             // Dito yung code sa pag query ng codes
                             echo "<script> console.log('$transaction_number') </script>";
                             if(isset($_GET['tranNum'])){
-
-                                echo '
-                                <script type="text/JavaScript"> 
-                                    $(document).ready(function()2{$(".viewCodeBtn").click();});
-                                </script>
-                                ';
                             }
-
                         ?>
     <!-- END -->
 
@@ -413,17 +425,7 @@ if(isset($_POST['generate'])){
                 <!-- Modal header -->
                 <div class="flex justify-between items-start p-4 rounded-t border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
-                        <?php 
-                            $trans_specific_select = "SELECT DISTINCT generation_batch FROM referral_codes";
-                            $trans_specific_query = mysqli_query($conn, $trans_specific_select);
-                            $trans_specific_count = mysqli_num_rows($trans_specific_query);
-
-                            while ($trans_specific = mysqli_fetch_assoc($trans_specific_query)) {
-                                echo $trans_specific['generation_batch'];
-                            }
-                        ?>
-                        test<br>
-                        ahha
+                            test
                     </h3>
                     <button type="button" class="closeBtn text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="viewModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -451,7 +453,7 @@ if(isset($_POST['generate'])){
                         </li>
                         <li class="flex items-center">
                             <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
-                            DR10-73BL29DH
+                            DR10-73BL29DH1
                         </li>
                     </ul>
                 </div>
