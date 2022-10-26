@@ -306,7 +306,7 @@ if(isset($_POST['generate'])){
                             </td>
                             <td class="text-center"><?php echo $referral['count']; ?></td>
                             <td class="text-center">
-                                <button class="text-blue-500" name="trannum" data-tran-num="<?php echo $transaction_number; ?>" type="button" data-modal-toggle="viewModal">
+                                <button class="text-blue-500" type="submit" name="trannum" data-tran-num="<?php $transaction_number; ?>" type="button" data-modal-toggle="viewModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 512 512" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
                                             <path d="M2486 5097 c-70 -40 -76 -63 -76 -302 0 -236 6 -260 69 -302 71 -48 175 -20 213 57 15 30 18 65 18 243 0 240 -8 270 -80 307 -51 26 -95 25 -144 -3z"/>
@@ -321,11 +321,11 @@ if(isset($_POST['generate'])){
                                     </svg>
                                 </button>
                             </td>
-                            <?php } ?>
                         </tr>
+                        <?php } ?>
                         <!-- end -->
                     </tbody>
-                    <!-- <button class="viewCodeBtn" type="button" data-modal-toggle="viewModal"></button> -->
+                    <button class="viewCodeBtn" type="button" data-modal-toggle="viewModal"></button>
                 </table>
             </div>
             <!--/Table-->
@@ -333,7 +333,6 @@ if(isset($_POST['generate'])){
         <!--/container-->
 
     </div>
-
     <script>
         $(document).ready(function(){
             $("#code").addClass("bg-emerald-700");
@@ -391,7 +390,19 @@ if(isset($_POST['generate'])){
     
 
     <!-- PHP For querying the codes -->
+    <?php
+                            // Dito yung code sa pag query ng codes
+                            echo "<script> console.log('$transaction_number') </script>";
+                            if(isset($_GET['tranNum'])){
 
+                                echo '
+                                <script type="text/JavaScript"> 
+                                    $(document).ready(function()2{$(".viewCodeBtn").click();});
+                                </script>
+                                ';
+                            }
+
+                        ?>
     <!-- END -->
 
     <!-- View Modal -->
@@ -402,32 +413,17 @@ if(isset($_POST['generate'])){
                 <!-- Modal header -->
                 <div class="flex justify-between items-start p-4 rounded-t border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
-                    <?php
-                            // Dito yung code sa pag query ng codes
-                        if(isset($_GET['tranNum'])){
-                            echo "<script> console.log('$transaction_number') </script>";
-                            $trans_specific_select = "SELECT * FROM referral_codes WHERE generation_batch = $transaction_number";
+                        <?php 
+                            $trans_specific_select = "SELECT DISTINCT generation_batch FROM referral_codes";
                             $trans_specific_query = mysqli_query($conn, $trans_specific_select);
                             $trans_specific_count = mysqli_num_rows($trans_specific_query);
-                            
-                            
 
-
-                            echo '
-                                <script type="text/JavaScript"> 
-                                    $(document).ready(function(){
-                                        $(".viewCodeBtn").click();
-                                    });
-                                </script>
-                            ';
-
-                    while ($trans_specific = mysqli_fetch_assoc($trans_specific_query)) {?>
-                        <?php echo "Codes for Transaction: "; echo $trans_specific['generation_batch']; ?><br>
-                        Date: 10/03/2022<br>
-                        Member Name: Cedrick Orozo<br>
-                        Code Type: Direct Invite<br>
-                        Total: 5
-                        <?php }} ?>
+                            while ($trans_specific = mysqli_fetch_assoc($trans_specific_query)) {
+                                echo $trans_specific['generation_batch'];
+                            }
+                        ?>
+                        test<br>
+                        ahha
                     </h3>
                     <button type="button" class="closeBtn text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="viewModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
