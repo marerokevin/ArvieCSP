@@ -6,7 +6,7 @@ if(isset($_POST['register'])){
 
     $ref_code_check = $_POST['ref_code'];
     $referrer_check = $_GET["arviecsp"];
-    $referralcheck = "SELECT referrer, ref_code FROM `referral_codes` WHERE `referrer` = '$referrer_check' AND `ref_code` = '$ref_code_check' AND `status` = 'to_redeem'";
+    $referralcheck = "SELECT referrer, ref_code FROM `referral_codes` WHERE `ref_code` = '$ref_code_check' AND `status` = 'to_redeem'";
     $resultReferral = mysqli_query($conn, $referralcheck);
     $referral_count = mysqli_num_rows($resultReferral);
 
