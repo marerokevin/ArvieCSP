@@ -3,6 +3,23 @@ session_start();
 include_once ("../includes/config/conn.php");
 $db= $conn;
 
+ //change rebates ammount
+
+ if(isset($_POST['changeRebate'])){
+    for($i=1; $i<=10; $i++){
+        $rebatesA = $_POST['rebatesA'.$i];
+        $rebatesB = $_POST['rebatesB'.$i];
+        // echo "<script>console.log('$rebatesA'); </script>";
+        // echo $rebatesA;
+        // echo $rebatesB;
+        $sqlUpdateRebates=  "UPDATE `rebatesamount` SET `rebatesA`='$rebatesA',`rebatesB`='$rebatesB' WHERE `id` = '$i'";
+    mysqli_query($conn, $sqlUpdateRebates);
+  
+    }
+    
+    
+  }
+
 // code for getting the accounts//
 $tableNameAccount="accounts";
 $columnsAccounts= ['id', 'first_name','last_name','email_address','access'];
@@ -123,6 +140,10 @@ if(isset($_GET['Approve'])){
     }
 
 }
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -208,7 +229,7 @@ if(isset($_GET['Approve'])){
   <?php include_once "./admin-header.php"; ?>
   <div class="content-container lg:flex lg:flex-row w-full">
     <div class="display-none lg:display-block lg:w-1/4 xl:w-1/5 2xl:w-1/5">
-      <?php include_once "./admin-nav.php"; ?>
+      <!-- <?php include_once "./admin-nav.php"; ?> -->
     </div>
     <div class="user-dashboard-content-container pt-5 px-6 pb-5 bg-emerald-100 w-full lg:w-3/4 xl:w-4/5 2xl:w-4/5">
         <!-- SALES -->
