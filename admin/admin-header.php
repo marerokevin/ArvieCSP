@@ -89,7 +89,7 @@
 <!-- Code for Rebates Amount -->
 
 <?php
- 
+
  $tableNameRebates="rebatesamount";
  $columnsRebates= ['id', 'rebatesA','rebatesB'];
  $fetchDataRebates = fetch_data_WD($db, $tableNameRebates, $columnsRebates);
@@ -141,6 +141,7 @@
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
       <div class="overflow-hidden">
+        <form method="POST" action="index.php">
         <table class="min-w-full">
           <thead class="border-b">
             <tr>
@@ -171,11 +172,11 @@
                                     <?php echo $level; ?>
                 </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <input type="number" name="rebatesA<?php echo $rebatesA; ?>" value="<?php echo $rebatesA;?>"
+                        <input type="number" name="rebatesA<?php echo $level;?>" value="<?php echo $rebatesA;?>"
                         disabled class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out  m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInputPassword1" placeholder="">
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <input type="number" name="rebatesA<?php echo $rebatesB; ?>" value="<?php echo $rebatesB;?>"class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out  m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInputPassword1" placeholder="">
+                        <input type="number" name="rebatesB<?php echo $level;?>" value="<?php echo $rebatesB;?>" disabled class="form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out  m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInputPassword1" placeholder="">
                     </td>
                 </tr>
                   <?php 
@@ -194,6 +195,7 @@
             
           </tbody>
         </table>
+       
       </div>
     </div>
   </div>
@@ -202,11 +204,22 @@
       <div
         class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
         <button type="button" class="px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg  transition duration-150 ease-in-out ml-1">Edit</button>  
-        <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg  transition duration-150 ease-in-out ml-1">Save changes</button>
+        <button type="button" class="px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg  transition duration-150 ease-in-out ml-1" onclick="enableRebates()">Edit</button>  
+        <button type="submit" name="changeRebate" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg  transition duration-150 ease-in-out ml-1">Save changes</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
+
+
+<script>
+
+function enableRebates(){
+    document.querySelectorAll('input').forEach(element => element.disabled = false);
+
+   }
+
+</script>
 
 

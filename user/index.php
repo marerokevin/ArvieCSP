@@ -76,53 +76,107 @@ if(isset($_POST['enterCode'])){
                         mysqli_query($conn, $sqlinsertTransacPoints);
                         }                
                     }
-
-                    $sponsor=$member_id;
-                    for ($i = 1; $i<=10; $i++)
-                    {                  
-                    //Update sponsor total balance
-                    $sqlUserSponsor= "SELECT * FROM `accounts` WHERE `member_id` = '$sponsor';";
-                    $resultUserSponsor = mysqli_query($conn, $sqlUserSponsor);
-                    while($userRow = mysqli_fetch_assoc($resultUserSponsor))
-                        {
-                            $inviteeID = $userRow['sponsor'];
-                                
-                            $sqlGetTotalBalance= "SELECT * FROM `totalbalance` WHERE `userID` = '$inviteeID'";
-                            $resultTotalBalance = mysqli_query($conn, $sqlGetTotalBalance);
-                            
-                            $totalBalance = 0;
-                            while($userRow = mysqli_fetch_assoc($resultTotalBalance)){
-                                $totalBalance = $userRow['totalBalance'];
-                                $emailOfSponsor = $userRow['userName'];
-                            }
-                            if($i==1)
+                    if($type == "RA"){
+                        $sponsor=$member_id;
+                    
+                        $sqlGetL1= "SELECT `rebatesA` FROM `rebatesamount` WHERE `rebatesA` != ''; ";
+                        $resultL1 = mysqli_query($conn, $sqlGetL1);
+                        $numrows = mysqli_num_rows($resultL1);
+    
+                        for ($i = 1; $i<=$numrows; $i++)
+                        {                  
+                        //Update sponsor total balance
+                        $sqlUserSponsor= "SELECT * FROM `accounts` WHERE `member_id` = '$sponsor';";
+                        $resultUserSponsor = mysqli_query($conn, $sqlUserSponsor);
+                        while($userRow = mysqli_fetch_assoc($resultUserSponsor))
                             {
-                                $updatedBalance = $totalBalance + 80;
-                                $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','80','$updatedBalance')";
-                                mysqli_query($conn, $sqlinsertTransact);
-
-                            }
-                            else if($i==2 || $i==3 || $i==4 || $i==5){
-                            $updatedBalance = $totalBalance + 30;
-                            $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','30','$updatedBalance')";
-                            mysqli_query($conn, $sqlinsertTransact);
-                            }
-                            else{
-                            $updatedBalance = $totalBalance + 20;
-                            $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','20','$updatedBalance')";
-                            mysqli_query($conn, $sqlinsertTransact);
-                            }
-                            $sqlAddBalance= "UPDATE `totalbalance` SET `totalBalance`='$updatedBalance' WHERE `userID` = '$inviteeID'";
-                            mysqli_query($conn, $sqlAddBalance);
-
-                         
-
-
-                            $sponsor = $inviteeID;
-                      }
+                                $inviteeID = $userRow['sponsor'];
+                                    
+                                $sqlGetTotalBalance= "SELECT * FROM `totalbalance` WHERE `userID` = '$inviteeID'";
+                                $resultTotalBalance = mysqli_query($conn, $sqlGetTotalBalance);
+                                
+                                $totalBalance = 0;
+                                while($userRow = mysqli_fetch_assoc($resultTotalBalance)){
+                                    $totalBalance = $userRow['totalBalance'];
+                                    $emailOfSponsor = $userRow['userName'];
+                                }
+    
+    
+                                $sqlGetL1= "SELECT `rebatesA` FROM `rebatesamount` WHERE `id` = '$i'";
+                                    $resultL1 = mysqli_query($conn, $sqlGetL1);
+                                    
+                                    $L1 = 0;
+                                    while($userRow = mysqli_fetch_assoc($resultL1)){
+                                        $L1 = $userRow['rebatesA'];
+                                    }
+                                    $updatedBalance = $totalBalance + $L1;
+                                    $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','$L1','$updatedBalance')";
+                                    mysqli_query($conn, $sqlinsertTransact);
+   
+      
+                                $sqlAddBalance= "UPDATE `totalbalance` SET `totalBalance`='$updatedBalance' WHERE `userID` = '$inviteeID'";
+                                mysqli_query($conn, $sqlAddBalance);
+    
+                             
+    
+    
+                                $sponsor = $inviteeID;
+                          }
+                        }
+                        echo "<script>alert('You have successfully enter the code!')</script>";
+    
                     }
-                    echo "<script>alert('You have successfully enter the code!')</script>";
-
+                    else if($type == "RB"){
+                        $sponsor=$member_id;
+                    
+                        $sqlGetL1= "SELECT `rebatesB` FROM `rebatesamount` WHERE `rebatesB` != ''; ";
+                        $resultL1 = mysqli_query($conn, $sqlGetL1);
+                        $numrows = mysqli_num_rows($resultL1);
+    
+                        for ($i = 1; $i<=$numrows; $i++)
+                        {                  
+                        //Update sponsor total balance
+                        $sqlUserSponsor= "SELECT * FROM `accounts` WHERE `member_id` = '$sponsor';";
+                        $resultUserSponsor = mysqli_query($conn, $sqlUserSponsor);
+                        while($userRow = mysqli_fetch_assoc($resultUserSponsor))
+                            {
+                                $inviteeID = $userRow['sponsor'];
+                                    
+                                $sqlGetTotalBalance= "SELECT * FROM `totalbalance` WHERE `userID` = '$inviteeID'";
+                                $resultTotalBalance = mysqli_query($conn, $sqlGetTotalBalance);
+                                
+                                $totalBalance = 0;
+                                while($userRow = mysqli_fetch_assoc($resultTotalBalance)){
+                                    $totalBalance = $userRow['totalBalance'];
+                                    $emailOfSponsor = $userRow['userName'];
+                                }
+    
+    
+                                $sqlGetL1= "SELECT `rebatesB` FROM `rebatesamount` WHERE `id` = '$i'";
+                                    $resultL1 = mysqli_query($conn, $sqlGetL1);
+                                    
+                                    $L1 = 0;
+                                    while($userRow = mysqli_fetch_assoc($resultL1)){
+                                        $L1 = $userRow['rebatesB'];
+                                    }
+                                    $updatedBalance = $totalBalance + $L1;
+                                    $sqlinsertTransact= "INSERT INTO `transaction`(`type`, `userName`, `userId`, `packageType`, `codeOwner`, `codeOwnerId`, `addedAmount`, `TotalBalance`)VALUES ('Rebates','$emailOfSponsor','$inviteeID','$type','$email','$member_id','$L1','$updatedBalance')";
+                                    mysqli_query($conn, $sqlinsertTransact);
+   
+      
+                                $sqlAddBalance= "UPDATE `totalbalance` SET `totalBalance`='$updatedBalance' WHERE `userID` = '$inviteeID'";
+                                mysqli_query($conn, $sqlAddBalance);
+    
+                             
+    
+    
+                                $sponsor = $inviteeID;
+                          }
+                        }
+                        echo "<script>alert('You have successfully enter the code!')</script>";
+    
+                    }
+                   
                 }
             }
          }
@@ -410,7 +464,7 @@ return $msg;
                             <div class="hidden sm:block"></div>
                             <div class="row-span-4 sm:row-span-3 col-span-2 self-center text-end mr-5 text-lg sm:text-xl md:text-2xl xl:text-3xl font-black">+  ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;//cedrick code ?></div> 
                             <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base xl:text-xl font-bold text-green-600"> <?php echo $type; ?></div>
-                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal lg:whitespace-normal md:text-center text-xs sm:text-base md:text-lg xl:text-xl font-bold"><?php echo $inviteName; ?>John Arian Malondras</div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal lg:whitespace-normal md:text-center text-xs sm:text-base md:text-lg xl:text-xl font-bold"><?php echo $inviteName; ?></div>
                         </div>
 
                         <?php 
@@ -424,7 +478,7 @@ return $msg;
                             <div class="row-span-3 col-span-2 self-center text-end mr-5 text-lg sm:text-xl md:text-2xl xl:text-3xl font-black">+ ₱ <?php $addedAmount = number_format($addedAmount, 2); echo $addedAmount;?></div>
                             <div class="row-span-2 pl-1 mr-1 self-center text-center text-xs sm:text-base xl:text-xl font-bold text-green-600"><?php echo $type; ?></div>
                             <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal overflow-hidden lg:whitespace-nowrap text-xs sm:text-base xl:text-xl font-bold"><?php echo $inviteeName; ?></div>
-                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal overflow-hidden lg:whitespace-nowrap text-xs sm:text-base xl:text-xl font-bold"><?php echo $inviteName; ?>John Arian Malondras</div>
+                            <div class="row-span-2 pl-1 mr-1 self-center text-center whitespace-normal overflow-hidden lg:whitespace-nowrap text-xs sm:text-base xl:text-xl font-bold"><?php echo $inviteName; ?></div>
                         </div>
 
                         <?php 
