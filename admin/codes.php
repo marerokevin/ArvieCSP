@@ -2,21 +2,20 @@
 session_start();
 include "/var/www/html/ArvieCSP/includes/config/conn.php";
 
-//Working
-$member_id = $_POST['member_id'];
-$select_member_id ="SELECT * FROM accounts";
-$query_member_id = mysqli_query($conn, $select_member_id);
+// //Working
+// $select_member_id ="SELECT * FROM accounts";
+// $query_member_id = mysqli_query($conn, $select_member_id);
 
-while($fetch_id = mysqli_fetch_assoc($query_member_id)){
-    $id = $fetch_id['member_id'];
-    $first_name = $fetch_id['first_name'];
-    $last_name = $fetch_id['last_name'];
-    $generation_batch = $fetch_id['generation_batch'];
-    $full_name = "$first_name $last_name";
+// while($fetch_id = mysqli_fetch_assoc($query_member_id)){
+//     $id = $fetch_id['member_id'];
+//     $first_name = $fetch_id['first_name'];
+//     $last_name = $fetch_id['last_name'];
+//     $generation_batch = $fetch_id['generation_batch'];
+//     $full_name = "$first_name $last_name";
 
-    $idNum = array($id);
-    $memName = array($full_name);
-}
+//     $idNum = array($id);
+//     $memName = array($full_name);
+// }
 
 if(isset($_POST['generate'])){
     $String_c='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -41,11 +40,9 @@ if(isset($_POST['generate'])){
             $generated = "$codetype$get_month-$rand4-$rand4_check";
             array_push($gen, $generated);
             $arrLength = count($gen);
-            $user = $_POST["member_id"];
-            $member_name = $_POST['member_name'];
             $turon = $gen[$x];
             
-            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `count`, `referrer_name`) VALUES ('$turon', current_timestamp(), '$user', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$count', '$member_name')";
+            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `count`, `referrer_name`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$count', 'n/a')";
             mysqli_query($conn, $insert_generated);
         }
     }
@@ -231,24 +228,6 @@ if(isset($_POST['generate'])){
                         </div>
                         <!-- Modal body -->
                         <form method="POST" action="codes.php" class="p-6">
-                            <div class="relative mb-6">
-                                <label for="base-input" class="block mb-2 text-lg font-medium text-gray-900">ID Number</label>
-                                <input type="search" id="id-search" name="member_id" list="idList" autocomplete="false" class="block p-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required>
-                                <button type="button" class="checkID text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Check ID Number</button>
-                                <datalist class="text-lg bg-blue-500" id="idList">
-                                    <?php
-                                        foreach($idNum as $x) {
-                                            ?>
-                                                <option value="<?php echo $x; ?>" class="bg-white"><?php echo $x; ?></option>
-                                            <?php
-                                        }
-                                    ?> 
-                                </datalist>
-                            </div>
-                            <div class="mb-6">
-                                <label for="base-input" class="block mb-2 text-lg font-medium text-gray-900">Name</label>
-                                <input type="text" id="name-input" name="member_name" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            </div>
                             <div class="mb-6">
                                 <label for="codeType" class="block mb-2 text-lg font-medium text-gray-900">Type</label>
                                 <select id="codeType" name="codetype" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
