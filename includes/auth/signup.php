@@ -60,7 +60,7 @@ if(isset($_POST['register'])){
                         $fnameNaginvite1 = $userRow['first_name'];
                         $lnameNaginvite1=$userRow['last_name'];
                     }
-                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`) VALUES ('$member_id','$first_name','$last_name','$referrer','$fnameNaginvite1  $lnameNaginvite1','$email_address','$hash','$contact_number','current_timestamp','approved','userist','$ref_code','$homeaddress','$tin_acct','$sss_num','$lastId')";
+                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`) VALUES ('$member_id', '$first_name', '$last_name', '$referrer', '$fnameNaginvite1  $lnameNaginvite1', '$email_address', '$hash', '$contact_number', current_timestamp(), 'approved', 'userist', '$ref_code', '$homeaddress', '$tin_acct', '$sss_num', '$lastId')";
                     $success = mysqli_query($conn, $create_user_select);
 
                     if ($success) { //Just to confirm if may nainsert, and nag success.
