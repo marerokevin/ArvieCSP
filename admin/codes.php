@@ -22,7 +22,7 @@ if(isset($_POST['generate'])){
     $transaction_code = "AT";
     $get_month_trans = date('m', strtotime("now"));
     $generation_batch = substr(str_shuffle($String_c), 0, 16);
-    $count = $_POST['count'];
+    $counter = $_POST['count'];
     $gen = array();
     $transaction = "$transaction_code$get_month_trans-$generation_batch";
 
@@ -31,7 +31,7 @@ if(isset($_POST['generate'])){
     $transaction_count = mysqli_num_rows($transaction_query);
 
     if ($transaction_count == 0) {
-        for ($x = 0; $x < $count; $x++) {
+        for ($x = 0; $x < $counter; $x++) {
             $codetype = $_POST['codetype'];
             $String_a='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $get_month = date('m', strtotime("now"));
@@ -42,8 +42,10 @@ if(isset($_POST['generate'])){
             $arrLength = count($gen);
             $turon = $gen[$x];
             
-            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `count`, `referrer_name`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$count', 'n/a')";
+            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `counter`, `referrer_name`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$counter', 'n/a')";
             mysqli_query($conn, $insert_generated);
+
+            header("location: ./generated-codes.php?transaction=$transaction");
         }
     }
 }
@@ -56,7 +58,7 @@ if(isset($_POST['generate'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
     <!-- <link rel="stylesheet" href="./dist/output.css"> -->
-    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css">
     <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
 	<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
@@ -68,7 +70,7 @@ if(isset($_POST['generate'])){
     <!-- <script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
 	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <title>Arvie Cosmetic & Skincare  ProductsTrading</title>
+    <title>Arvie Cosmetic & Skincare ProductsTrading</title>
 
     <style>
 		.dataTables_wrapper select,
@@ -199,7 +201,6 @@ if(isset($_POST['generate'])){
 
             <!-- Generate Code Modal -->
             <div id="generateModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-                
                 <!-- Error Message -->
                 <div style="transform: translate(-50%, 0); z-index:99;" id="errorIDNum" class="hidden absolute top-24 left-1/2  flex items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-red-300 rounded-lg shadow" role="alert">
                     <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-red-500 bg-red-300 rounded-lg">
