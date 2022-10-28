@@ -1,10 +1,5 @@
 <?php
 session_start();
-include_once ("../includes/config/conn.php");
-
-$transaction = $_GET["transaction_"];
-$transaction_select = "SELECT * from referral_codes WHERE generation_batch = '$transaction'"
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -170,36 +165,46 @@ $transaction_select = "SELECT * from referral_codes WHERE generation_batch = '$t
             <!-- Content -->
                 <div class="bg-white rounded-xl p-6 shadow-lg">
                     <!-- Info -->
+                    <?php
+                        include_once ("../includes/config/conn.php");
+                        
+                        $transaction = $_GET["transaction"];
+                        $transaction_select = "SELECT codetype, counter, ref_code, transaction_id from referral_codes WHERE generation_batch = '$transaction'";
+                        $transaction_query = mysqli_query($conn, $transaction_select);
+                    ?>
                     <h2 class="text-3xl font-extrabold text-bold text-gray-700">Info</h2>
-                    <p class="mt-3 text-xl text-gray-700 font-bold">Member Name: <span class="font-semibold">John Arian Malondras</span></p>
-                    <p class="mt-1 text-xl text-gray-700 font-bold">Type: <span class="font-semibold">Direct Invite</span></p>
-                    <p class="mt-1 text-xl text-gray-700 font-bold">Count: <span class="font-semibold">5</span></p>
+                    <!-- <p class="mt-3 text-xl text-gray-700 font-bold">Member Name: <span class="font-semibold">John Arian Malondras</span></p> -->
+                    <p class="mt-1 text-xl text-gray-700 font-bold">Type: 
+                        <span class="font-semibold">
+                            <?php
+                            $single_transaction = mysqli_fetch_assoc($transaction_query);
+                                    if ($single_transaction['codetype'] == "DI") {
+                                        echo "Direct Sales";
+                                    } elseif ($single_transaction['codetype'] == "RA") {
+                                        echo "Botanical";
+                                    } elseif ($single_transaction['codetype'] == "RB") {
+                                        echo "Kapenato & Cereal";
+                                    }
+                            ?>
+                        </span>
+                    </p>
+                    <p class="mt-1 text-xl text-gray-700 font-bold">Count: 
+                        <span class="font-semibold">
+                            <?php
+                                echo $single_transaction['counter'];
+                            ?>
+                        </span>
+                    </p>
 
                     <!-- Codes -->
                     <div class="px-20 py-10 text-3xl font-medium grid grid-cols-3 gap-5 text-gray-700 justify-items-center">
                     <?php
-                        $count = 10;
-                        $gen = array();
-                        echo "<script>console.log('nagana ako 2');</script>";
-                        
-                        do {
-                            for ($x = 1; $x <=$count; $x++) {
-                                echo "<script>console.log('nagana ako 2');</script>";
-                                $codetype = "DI";
-                                $String_a='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                                $String_b='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                                $get_month = date('m', strtotime("now"));
-                                $rand4 = substr(str_shuffle($String_a), 0, 4);
-                                $rand4_check = substr(str_shuffle($String_b), 0, 4);
-                                $generated = "$codetype$get_month-$rand4-$rand4_check";
-                                $generation_batch = substr(str_shuffle($String_a), 0, 16);
-                                array_push($gen, $generated);
-                                $arrLength = count($gen);
-                                echo $arrLength;
-                                echo $gen[$x-1];
-                                echo "<br>";
-                            }
-                        } while ($x <= $count);
+                        $transaction = $_GET["transaction"];
+                        $transaction_select_code = "SELECT codetype, counter, ref_code, transaction_id from referral_codes WHERE generation_batch = '$transaction'";
+                        $transaction_query_code = mysqli_query($conn, $transaction_select_code);
+                        while ($specific_transaction = mysqli_fetch_assoc($transaction_query_code)) {
+                            echo $specific_transaction['ref_code']; echo " "; echo $specific_transaction['transaction_id']; echo "<br>";
+                        }
                     ?>
                     </div>
                 </div>
