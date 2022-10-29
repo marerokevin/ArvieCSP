@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "/var/www/html/ArvieCSP/includes/config/conn.php";
+include "../includes/config/conn.php";
 
 // //Working
 // $select_member_id ="SELECT * FROM accounts";
@@ -19,6 +19,7 @@ include "/var/www/html/ArvieCSP/includes/config/conn.php";
 
 if(isset($_POST['generate'])){
     $String_c='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // echo $String_c;
     $transaction_code = "AT";
     $get_month_trans = date('m', strtotime("now"));
     $generation_batch = substr(str_shuffle($String_c), 0, 16);
@@ -29,7 +30,7 @@ if(isset($_POST['generate'])){
     $transaction_select = "SELECT `generation_batch` FROM referral_codes where `generation_batch` = '$transaction'";
     $transaction_query = mysqli_query($conn, $transaction_select);
     $transaction_count = mysqli_num_rows($transaction_query);
-
+// echo $transaction_count;
     if ($transaction_count == 0) {
         for ($x = 0; $x < $counter; $x++) {
             $codetype = $_POST['codetype'];
@@ -41,8 +42,8 @@ if(isset($_POST['generate'])){
             array_push($gen, $generated);
             $arrLength = count($gen);
             $turon = $gen[$x];
-            
-            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `counter`, `referrer_name`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$counter', 'n/a')";
+            echo $turon;
+            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `counter`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$counter')";
             mysqli_query($conn, $insert_generated);
 
             header("location: ./generated-codes.php?transaction=$transaction");

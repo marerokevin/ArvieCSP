@@ -35,13 +35,13 @@ while($userRow = mysqli_fetch_assoc($resultPresentBalance)){
 $email = $_SESSION["email_address"];
 if(isset($_POST['enterCode'])){
     $EnteredCode = $_POST['EnteredCode'];
-    $sqlSelectCode= "SELECT * FROM `generated_code` WHERE `code` = '$EnteredCode' AND `type` = 'RA' || `type`='RB'";
+    $sqlSelectCode= "SELECT * FROM `referral_codes` WHERE `ref_code` = '$EnteredCode' AND `codetype`='RA' OR `ref_code` = '$EnteredCode' AND `codetype`='RB';";
     $resultSelectCode = mysqli_query($conn, $sqlSelectCode);
     $num_of_select_code = mysqli_num_rows($resultSelectCode);
     while($userRow = mysqli_fetch_assoc($resultSelectCode))
         {
         $userNameOfCodeOwner = $userRow['userNameOfCodeOwner'];
-        $type = $userRow['type'];
+        $type = $userRow['codetype'];
 
             if($num_of_select_code !=0)
             {
@@ -50,7 +50,7 @@ if(isset($_POST['enterCode'])){
                     echo "<script>alert('This is code is already used. Please enter another code')</script>";
                 }
                 else{
-                    $sqlUpdateCodeOwner= "UPDATE `generated_code` SET `userNameOfCodeOwner`='$email',`userIdOfCodeOwner`='$member_id' WHERE `code` = '$EnteredCode'";
+                    $sqlUpdateCodeOwner= "UPDATE `referral_codes` SET `userNameOfCodeOwner`='$email',`referee`='$member_id' WHERE `ref_code` = '$EnteredCode'";
                     mysqli_query($conn, $sqlUpdateCodeOwner);
                     // echo "You have successfully enter the code!";
                     $sqlSelectRebatesPoints= "SELECT * FROM `rebates_points` WHERE `user_id` = '$member_id'";
