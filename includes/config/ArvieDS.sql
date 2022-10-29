@@ -145,7 +145,7 @@ DROP TABLE IF EXISTS `rebates_points`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rebates_points` (
   `rebates_points_id` int(100) NOT NULL AUTO_INCREMENT,
-  `user_id` int(100) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
   `email_address` varchar(100) NOT NULL,
   `pointsEarned` int(50) NOT NULL,
   PRIMARY KEY (`rebates_points_id`)
@@ -217,7 +217,8 @@ CREATE TABLE `referral_codes` (
   `generation_batch` varchar(255) NOT NULL,
   `transaction_id` int(255) NOT NULL AUTO_INCREMENT,
   `codetype` varchar(2) NOT NULL,
-  `count` int(2) NOT NULL,
+  `counter` int(2) NOT NULL,
+  `userNameOfCodeOwner` varchar(50),
   `referrer_name` varchar(255) NOT NULL,
   PRIMARY KEY (`transaction_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
@@ -227,31 +228,7 @@ CREATE TABLE `referral_codes` (
 -- Dumping data for table `referral_codes`
 --
 
-LOCK TABLES `referral_codes` WRITE;
-/*!40000 ALTER TABLE `referral_codes` DISABLE KEYS */;
-INSERT INTO `referral_codes` VALUES
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20','ADS2022-10-1','2022-10-23 15:23:20','used','DI10-YWzh-fWwv','AT10-KG3FIf79XSl4gUhy',1,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20','ADS2022-10-2','2022-10-23 15:23:20','used','DI10-pIZm-Tubl','AT10-KG3FIf79XSl4gUhy',2,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-9v8L-dCwx','AT10-KG3FIf79XSl4gUhy',3,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-dP7a-pRjB','AT10-KG3FIf79XSl4gUhy',4,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-vNJ4-MDmw','AT10-KG3FIf79XSl4gUhy',5,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-H6v9-L9uv','AT10-KG3FIf79XSl4gUhy',6,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-gaHd-F0Eg','AT10-KG3FIf79XSl4gUhy',7,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-Suja-NMGv','AT10-KG3FIf79XSl4gUhy',8,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-E3Vn-5J8U','AT10-KG3FIf79XSl4gUhy',9,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:23:20','ADS10-1','2022-10-23 15:23:20',NULL,'2022-10-23 15:23:20','to_redeem','DI10-5xn6-IB9a','AT10-KG3FIf79XSl4gUhy',10,'DI',10,'Kevin Roy Marero'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29','ADS2022-10-3','2022-10-23 15:52:29','used','DI10-DW1d-RcbB','AT10-gyhc9EzlK0PFU6vt',11,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29','ADS2022-10-4','2022-10-23 15:52:29','used','DI10-VzqN-KYgR','AT10-gyhc9EzlK0PFU6vt',12,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-5E6j-VDkz','AT10-gyhc9EzlK0PFU6vt',13,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-seYX-k0BC','AT10-gyhc9EzlK0PFU6vt',14,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-WQYX-IUa5','AT10-gyhc9EzlK0PFU6vt',15,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-Kjtr-keoE','AT10-gyhc9EzlK0PFU6vt',16,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-a0Lt-mPVv','AT10-gyhc9EzlK0PFU6vt',17,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-sJdr-IxiG','AT10-gyhc9EzlK0PFU6vt',18,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-xqGr-2vFZ','AT10-gyhc9EzlK0PFU6vt',19,'DI',10,'Cedrick James Orozo'),
-('2022-10-23 15:52:29','ADS2022-10-2','2022-10-23 15:52:29',NULL,'2022-10-23 15:52:29','to_redeem','DI10-d1s5-XOAF','AT10-gyhc9EzlK0PFU6vt',20,'DI',10,'Cedrick James Orozo');
-/*!40000 ALTER TABLE `referral_codes` ENABLE KEYS */;
-UNLOCK TABLES;
+
 
 --
 -- Table structure for table `totalbalance`
