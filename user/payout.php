@@ -64,7 +64,7 @@ if(isset($_POST['requestPO'])){
     $transactionId = $code."-".$getYearNow."".$getDateNow."".$getMonthNow."".$lastId;
 
 
-    $DayNow = new DateTime('2022-10-31'); 
+    $DayNow = new DateTime(); 
                         $day  = $DayNow->format('D'); 
                         if($day !="Mon"){
                             echo "<script>alert('You can only request payout every Monday') </script>";
