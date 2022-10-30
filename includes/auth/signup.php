@@ -7,10 +7,10 @@ date_default_timezone_set("Asia/Singapore");
 
     $referrer_check = $_POST['sponsor'];
     $ref_code_check = $_POST['ref_code'];
-    $referralcheck = "SELECT referrer, ref_code FROM `referral_codes` WHERE `ref_code` = '$ref_code_check' AND `status` = 'to_redeem'";
+    $referralcheck = "SELECT * FROM `referral_codes` WHERE `ref_code` = '$ref_code_check' AND `status` = 'to_redeem' AND `codetype` ='DI'";
     $resultReferral = mysqli_query($conn, $referralcheck);
     $referral_count = mysqli_num_rows($resultReferral);
-
+    $referrer = $_POST["sponsor"];
     if ($referral_count == 1) {
 
         while($referral_info = mysqli_fetch_assoc($resultReferral)) {
@@ -79,6 +79,9 @@ date_default_timezone_set("Asia/Singapore");
                     if ($success) { //Just to confirm if may nainsert, and nag success.
                         $sqlInsertUserInitialBalance= "INSERT INTO `totalbalance`(`userID`, `userName`, `totalBalance`) VALUES ('$member_id','$email_address','0')";
                         mysqli_query($conn, $sqlInsertUserInitialBalance);
+
+                        $sqlInsertUserInitialPoints = "INSERT INTO `rebates_points`(`user_id`, `email_address`, `pointsEarned`) VALUES ('$member_id','$email_address','0')";
+                        mysqli_query($conn, $sqlInsertUserInitialPoints);
 
                         $create_user_select_name = "SELECT * FROM `accounts` WHERE `member_id` = '$referrer'";
                         $create_user_query_name = mysqli_query($conn, $create_user_select_name);
@@ -159,22 +162,31 @@ date_default_timezone_set("Asia/Singapore");
                     }
                     else{
                         echo "<script> alert('There is an error with adding account')</script>";
+                header("location: signup.php?arviecsp=$referrer");
+
                     }
                    
                 }
                 else{
+
                     echo "<script> alert('Password not match')</script>";
+                header("location: signup.php?arviecsp=$referrer");
+
                 } 
             }
             else if ($create_user_count>0) 
             {
                 echo "<script> alert('Email address is already taken.')</script>";
+                header("location: signup.php?arviecsp=$referrer");
             } 
         }
     }
     else{
         // echo "<script> alert('Email address is already taken.')</script>";
+
         echo "<script> alert('This code does not exist or already been used.')</script>";
+        header("location: signup.php?arviecsp=$referrer");
+
     }
 }
 

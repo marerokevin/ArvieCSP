@@ -1,38 +1,38 @@
 <?php
 session_start();
-include "/var/www/html/ArvieCSP/includes/config/conn.php";
+include "../includes/config/conn.php";
 
-//Working
-$member_id = $_POST['member_id'];
-$select_member_id ="SELECT * FROM accounts";
-$query_member_id = mysqli_query($conn, $select_member_id);
+// //Working
+// $select_member_id ="SELECT * FROM accounts";
+// $query_member_id = mysqli_query($conn, $select_member_id);
 
-while($fetch_id = mysqli_fetch_assoc($query_member_id)){
-    $id = $fetch_id['member_id'];
-    $first_name = $fetch_id['first_name'];
-    $last_name = $fetch_id['last_name'];
-    $generation_batch = $fetch_id['generation_batch'];
-    $full_name = "$first_name $last_name";
+// while($fetch_id = mysqli_fetch_assoc($query_member_id)){
+//     $id = $fetch_id['member_id'];
+//     $first_name = $fetch_id['first_name'];
+//     $last_name = $fetch_id['last_name'];
+//     $generation_batch = $fetch_id['generation_batch'];
+//     $full_name = "$first_name $last_name";
 
-    $idNum = array($id);
-    $memName = array($full_name);
-}
+//     $idNum = array($id);
+//     $memName = array($full_name);
+// }
 
 if(isset($_POST['generate'])){
     $String_c='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // echo $String_c;
     $transaction_code = "AT";
     $get_month_trans = date('m', strtotime("now"));
     $generation_batch = substr(str_shuffle($String_c), 0, 16);
-    $count = $_POST['count'];
+    $counter = $_POST['count'];
     $gen = array();
     $transaction = "$transaction_code$get_month_trans-$generation_batch";
 
     $transaction_select = "SELECT `generation_batch` FROM referral_codes where `generation_batch` = '$transaction'";
     $transaction_query = mysqli_query($conn, $transaction_select);
     $transaction_count = mysqli_num_rows($transaction_query);
-
+// echo $transaction_count;
     if ($transaction_count == 0) {
-        for ($x = 0; $x < $count; $x++) {
+        for ($x = 0; $x < $counter; $x++) {
             $codetype = $_POST['codetype'];
             $String_a='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $get_month = date('m', strtotime("now"));
@@ -41,12 +41,12 @@ if(isset($_POST['generate'])){
             $generated = "$codetype$get_month-$rand4-$rand4_check";
             array_push($gen, $generated);
             $arrLength = count($gen);
-            $user = $_POST["member_id"];
-            $member_name = $_POST['member_name'];
             $turon = $gen[$x];
-            
-            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `count`, `referrer_name`) VALUES ('$turon', current_timestamp(), '$user', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$count', '$member_name')";
+            // echo $turon;
+            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `counter`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$counter')";
             mysqli_query($conn, $insert_generated);
+
+            header("location: ./generated-codes.php?transaction=$transaction");
         }
     }
 }
@@ -59,7 +59,7 @@ if(isset($_POST['generate'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
     <!-- <link rel="stylesheet" href="./dist/output.css"> -->
-    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css">
     <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
 	<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
@@ -71,7 +71,7 @@ if(isset($_POST['generate'])){
     <!-- <script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
 	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <title>Arvie Cosmetic & Skincare  ProductsTrading</title>
+    <title>Arvie Cosmetic & Skincare ProductsTrading</title>
 
     <style>
 		.dataTables_wrapper select,
@@ -202,7 +202,6 @@ if(isset($_POST['generate'])){
 
             <!-- Generate Code Modal -->
             <div id="generateModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-                
                 <!-- Error Message -->
                 <div style="transform: translate(-50%, 0); z-index:99;" id="errorIDNum" class="hidden absolute top-24 left-1/2  flex items-center p-4 mb-4 w-full max-w-xs text-gray-500 bg-red-300 rounded-lg shadow" role="alert">
                     <div class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-red-500 bg-red-300 rounded-lg">
@@ -231,24 +230,6 @@ if(isset($_POST['generate'])){
                         </div>
                         <!-- Modal body -->
                         <form method="POST" action="codes.php" class="p-6">
-                            <div class="relative mb-6">
-                                <label for="base-input" class="block mb-2 text-lg font-medium text-gray-900">ID Number</label>
-                                <input type="search" id="id-search" name="member_id" list="idList" autocomplete="false" class="block p-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" required>
-                                <button type="button" class="checkID text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Check ID Number</button>
-                                <datalist class="text-lg bg-blue-500" id="idList">
-                                    <?php
-                                        foreach($idNum as $x) {
-                                            ?>
-                                                <option value="<?php echo $x; ?>" class="bg-white"><?php echo $x; ?></option>
-                                            <?php
-                                        }
-                                    ?> 
-                                </datalist>
-                            </div>
-                            <div class="mb-6">
-                                <label for="base-input" class="block mb-2 text-lg font-medium text-gray-900">Name</label>
-                                <input type="text" id="name-input" name="member_name" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            </div>
                             <div class="mb-6">
                                 <label for="codeType" class="block mb-2 text-lg font-medium text-gray-900">Type</label>
                                 <select id="codeType" name="codetype" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -278,15 +259,16 @@ if(isset($_POST['generate'])){
                         <tr>
                             <th data-priority="1">Date</th>
                             <th data-priority="2">Tran. No.</th>
-                            <th data-priority="3">Member Name</th>
+                            <th data-priority="3">Code</th>
                             <th data-priority="4">Type</th>
-                            <th data-priority="5">Code Count</th>
-                            <th data-priority="6">View</th>
+                            <th data-priority="5">Status</th>
+                            <th data-priority="6">Used by</th>
+                            <!-- <th data-priority="7">View</th> -->
                         </tr>
                     </thead>
                     <tbody>
                     <?php
-                    $referral_list = "SELECT DISTINCT generation_batch, gen_date, referrer, codetype, count, referrer_name from referral_codes"; //select distinct generation_batch/transaction number
+                    $referral_list = "SELECT generation_batch, gen_date, referee, codetype, ref_code, status from referral_codes"; //select distinct generation_batch/transaction number
                     $referral_query = mysqli_query($conn, $referral_list);
                     while ($referral = mysqli_fetch_assoc($referral_query)) {
                         $transaction_number = $referral['generation_batch'];
@@ -294,7 +276,7 @@ if(isset($_POST['generate'])){
                         <tr>
                             <td class="text-center"><?php echo $referral['gen_date']; ?></td>
                             <td class="text-center"><?php echo $referral['generation_batch']; ?></td>
-                            <td class="text-center"><?php echo $referral['referrer_name']; ?></td>
+                            <td class="text-center"><?php echo $referral['ref_code']; ?></td>
                             <td class="text-center">
                                 <?php if ($referral['codetype'] == "DI") {
                                         echo "Direct Sales";
@@ -304,9 +286,27 @@ if(isset($_POST['generate'])){
                                         echo "Kapenato & Cereal";
                                     }?>
                             </td>
-                            <td class="text-center"><?php echo $referral['count']; ?></td>
-                            <td class="text-center">
-                                <button class="text-blue-500" name="trannum" data-tran-num="<?php echo $transaction_number; ?>" type="button" data-modal-toggle="viewModal">
+                            <td class="text-center"><?php if ($referral['status'] == "used") {
+                                        echo "Used";
+                                    } elseif ($referral['status'] == "to_redeem") {
+                                        echo "To Redeem";
+                                    } ?></td>
+
+                            <td class="text-center"><?php 
+                                $xxxuser = $referral['referee'];
+                                $staytus = $referral['status'];
+                                echo "<script> console.log('$xxxuser') </script>";
+                                $userxxx = "SELECT first_name, last_name FROM accounts WHERE member_id = '$xxxuser'";
+                                $user_query = mysqli_query($conn, $userxxx);
+                                $user_count = mysqli_num_rows($user_query);
+                                    while ($user123 = mysqli_fetch_assoc($user_query)) {
+                                        if ($user_count == 1) {
+                                            echo $user123['first_name']; echo " "; echo $user123['last_name'];
+                                        }
+                                    }
+                                ?></td>
+                            <!-- <td class="text-center">
+                                <button class="text-blue-500" type="submit" name="trannum" data-tran-num="" type="button" data-modal-toggle="viewModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 512 512" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
                                             <path d="M2486 5097 c-70 -40 -76 -63 -76 -302 0 -236 6 -260 69 -302 71 -48 175 -20 213 57 15 30 18 65 18 243 0 240 -8 270 -80 307 -51 26 -95 25 -144 -3z"/>
@@ -320,12 +320,12 @@ if(isset($_POST['generate'])){
                                         </g>
                                     </svg>
                                 </button>
-                            </td>
-                            <?php } ?>
+                            </td> -->
                         </tr>
+                        <?php } ?>
                         <!-- end -->
                     </tbody>
-                    <!-- <button class="viewCodeBtn" type="button" data-modal-toggle="viewModal"></button> -->
+                    <button class="viewCodeBtn" type="button" data-modal-toggle="viewModal"></button>
                 </table>
             </div>
             <!--/Table-->
@@ -333,7 +333,6 @@ if(isset($_POST['generate'])){
         <!--/container-->
 
     </div>
-
     <script>
         $(document).ready(function(){
             $("#code").addClass("bg-emerald-700");
@@ -391,7 +390,12 @@ if(isset($_POST['generate'])){
     
 
     <!-- PHP For querying the codes -->
-
+    <?php
+                            // Dito yung code sa pag query ng codes
+                            // echo "<script> console.log('$transaction_number') </script>";
+                            if(isset($_GET['tranNum'])){
+                            }
+                        ?>
     <!-- END -->
 
     <!-- View Modal -->
@@ -402,32 +406,7 @@ if(isset($_POST['generate'])){
                 <!-- Modal header -->
                 <div class="flex justify-between items-start p-4 rounded-t border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
-                    <?php
-                            // Dito yung code sa pag query ng codes
-                        if(isset($_GET['tranNum'])){
-                            echo "<script> console.log('$transaction_number') </script>";
-                            $trans_specific_select = "SELECT * FROM referral_codes WHERE generation_batch = $transaction_number";
-                            $trans_specific_query = mysqli_query($conn, $trans_specific_select);
-                            $trans_specific_count = mysqli_num_rows($trans_specific_query);
-                            
-                            
-
-
-                            echo '
-                                <script type="text/JavaScript"> 
-                                    $(document).ready(function(){
-                                        $(".viewCodeBtn").click();
-                                    });
-                                </script>
-                            ';
-
-                    while ($trans_specific = mysqli_fetch_assoc($trans_specific_query)) {?>
-                        <?php echo "Codes for Transaction: "; echo $trans_specific['generation_batch']; ?><br>
-                        Date: 10/03/2022<br>
-                        Member Name: Cedrick Orozo<br>
-                        Code Type: Direct Invite<br>
-                        Total: 5
-                        <?php }} ?>
+                            test
                     </h3>
                     <button type="button" class="closeBtn text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="viewModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -455,7 +434,7 @@ if(isset($_POST['generate'])){
                         </li>
                         <li class="flex items-center">
                             <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
-                            DR10-73BL29DH
+                            DR10-73BL29DH1
                         </li>
                     </ul>
                 </div>

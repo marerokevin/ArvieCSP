@@ -1,12 +1,103 @@
 <?php
 session_start();
+
 include_once ("../includes/config/conn.php");
 $db= $conn;
+date_default_timezone_set("Asia/Singapore");
+$dateNow = new DateTime(); 
+$dateNow  = $dateNow->format('M d, Y'); 
+$DayNow = new DateTime(); 
+
+$day  = $DayNow->format('D'); 
+
+// echo $day; 
+
+
+
+
+$member_id = $_SESSION["member_id"];
+$email = $_SESSION["email_address"];
+$id = $_SESSION["id"];
+$SelectInfo ="SELECT * FROM `accounts` WHERE `member_id` = '$member_id';";
+$resultInfo= mysqli_query($conn, $SelectInfo);
+$fname="";
+$lname="";
+$referralLink="";
+while($userRow = mysqli_fetch_assoc($resultInfo)){
+    $fname = $userRow['first_name'];
+    $lname = $userRow['last_name'];
+    $referralLink = $userRow['referralLink'];
+
+}
+$SelectPresentBalance ="SELECT * FROM `totalbalance` WHERE `userID` = '$member_id';";
+$resultPresentBalance = mysqli_query($conn, $SelectPresentBalance);
+
+while($userRow = mysqli_fetch_assoc($resultPresentBalance)){
+    $totalBalance = $userRow['totalBalance'];
+    $unclaimableBalance = $userRow['unclaimable'];
+
+}
+
+$email = $_SESSION["email_address"];
+
+
+if(isset($_POST['requestPO'])){
+
+    $code = "PR";
+    $get_month = date('m', strtotime("now"));
+
+    $sqlLastID = "SELECT MAX(transactionIdBasis) as 'idnumber' FROM `payout_request` WHERE 1";//select the highest number_basis
+    $getLastId = mysqli_query($conn, $sqlLastID);
+    while($userRow = mysqli_fetch_assoc($getLastId)){
+        $lastId = $userRow['idnumber'];
+        $lastId++; //increment the number_basis
+    }
+
+    $getDateNow = new DateTime();
+    $getYearNow  = $getDateNow->format('Y'); 
+    $getMonthNow  = $getDateNow->format('m'); 
+    $getDateNow  = $getDateNow->format('d'); 
+    $getDateNowReal = new DateTime();
+    $FullDateOfthisDay = $getDateNowReal->format('Y-m-d'); 
+
+
+    $transactionId = $code."-".$getYearNow."".$getDateNow."".$getMonthNow."".$lastId;
+
+
+    $DayNow = new DateTime('2022-10-31'); 
+                        $day  = $DayNow->format('D'); 
+                        if($day !="Mon"){
+                            echo "<script>alert('You can only request payout every Monday') </script>";
+
+                        }
+                        else if($totalBalance<1000){
+                            echo "<script>alert('You don't have enough balance to request a payout. ₱ 1000.00 is the minimum amount.') </script>";
+
+                        }
+                        else {
+
+                            $amount = $_POST['POAmount'];
+                            $modeOfPayment = $_POST['modeOfPO'];
+                        
+                            $sqlInsertRequest= "INSERT INTO `payout_request`(`date`,`transaction_id`, `member_id`, `member_name`, `amount`, `mode_of_payment`, `status`, `transactionIdBasis`) VALUES ('$FullDateOfthisDay','$transactionId','$member_id','$fname $lname','$amount','$modeOfPayment','pending','$lastId')";
+                          $insertRequest =   mysqli_query($conn, $sqlInsertRequest);
+                                if($insertRequest){
+                                    echo "<script>alert('You have successfully requested a payout!') </script>";
+                                }
+                                else{
+                                    echo "<script>alert('Please try again!') </script>";
+                        
+                                }
+
+                        }
+ 
+}
+
 
 
 // code for getting the payout transaction//
 $tablePayout="payout_request";
-$columnsTransaction= ['transaction_id','date','date_released','time_released','member_id','member_name','amount','mode_of_payment' ,'status','receipt'];
+$columnsTransaction= ['transaction_id','date','member_id','member_name','amount','mode_of_payment' ,'status'];
 $fetchDataPayout= fetch_transaction($db, $tablePayout, $columnsTransaction);
 
 
@@ -21,7 +112,8 @@ function fetch_transaction($db, $tablePayout, $columnsTransaction){
    $msg= "Table Name is empty";
 }else{
 $columnName = implode(", ", $columnsTransaction);
-$query = "SELECT * FROM `payout_request` WHERE 1 ORDER BY `transaction_id` DESC";
+$member_id = $_SESSION["member_id"];
+$query = "SELECT * FROM `payout_request` WHERE `member_id` = '$member_id' ORDER BY `transaction_id` DESC";
 
 //  SELECT * FROM `usertask` WHERE `username` = 'cjorozo';
 $result = $db->query($query);
@@ -41,30 +133,6 @@ return $msg;
 // end of code for getting the payout transaction//
 
 
-
-if(isset($_POST['Approve'])){
-$transaction_id= $_POST['transaction_id'];
-$sqlupdatesPOStatus= "UPDATE `payout_request` SET `status`='approved' WHERE `transaction_id` = '$transaction_id'";
-$updateStatus = mysqli_query($conn, $sqlupdatesPOStatus);
-if($updateStatus){
-echo "<script> alert('You have successfully approved the request.')</script>";
-}
-else{
-echo "<script> alert('Approval of request did not succeed.')</script>";
-
-}
-
-
-}
-
-
-
-
-
-
-// Array ng ID Number at Name
-$idNum = array("123123123", "456456456", "789789789");
-$memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Orozo");
 
 ?>
 <!DOCTYPE html>
@@ -93,6 +161,15 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
     <script src="../js/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="./dist/output.css"> -->
+    <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
+
+    <title>Admin</title>
+
+	
+    <!-- <script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
 
     <title>Arvie Cosmetic & Skincare  ProductsTrading</title>
 
@@ -204,13 +281,13 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
     </style>
 </head>
 <body>
-  <?php include_once "./admin-header.php"; ?>
+  <?php include_once "./user-header.php"; ?>
   <div class="content-container lg:flex lg:flex-row w-full">
     <div class="display-none lg:display-block lg:w-1/4 xl:w-1/5 2xl:w-1/5">
-      <?php include_once "./admin-nav.php"; ?>
+      <?php include_once "./user-nav.php"; ?>
     </div>
-
-    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="approve" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
+<!-- modal -->
+<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="payoutModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
             <div class="modal-dialog modal-xl relative w-auto pointer-events-none">
                 
                     <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
@@ -223,100 +300,47 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
                         data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body relative p-4">
-                    <form action="payout-request.php" method="POST">
-                       <h5>Are you sure you want to approve this payout request?</h5>
-                       <input type="text" name="transaction_id" id="modal_member_id"class="hidden">
-                       <!-- <input type="text" name="amount" id="modal_amount" class="hidden"> -->
-
-                    </div>
-                    <div
-                        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
-                        <button type="button"
-                        class="inline-block px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-500 hover:shadow-lg focus:bg-gray-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-600 active:shadow-lg transition duration-150 ease-in-out"
-                        data-bs-dismiss="modal">
-                        Cancel
-                        </button>
-                        <button type="submit" name="Approve"
-                        class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
-                        Yes
-                        </button>
-                    </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        
-    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="release" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl relative w-auto pointer-events-none">
-                
-                    <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-                    <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-                        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalScrollableLabel">
-                        Payout Request
+                        <?php 
+                 
+                        $DayNow = new DateTime(); 
+                        $day  = $DayNow->format('D'); 
+                        if($day !="Mon"){
+                            echo "<h5 class='text-xl font-medium leading-normal text-gray-800'> Note: You can only request payout every Monday.</h5>";
+                        }
+                        if($totalBalance<1000){
+                            echo "<h5 class='text-xl font-medium leading-normal text-gray-800'> Note: You don't have enough balance to request a payout. ₱ 1000.00 is the minimum amount.</h5>";
+                        }
+                        ?>
+                    <h5 class="text-xl font-medium leading-normal text-gray-800" id="">
+                        Your Total Balance is : <span> ₱ <?php $totalBalance2 = number_format($totalBalance, 2);echo $totalBalance2; //cedrick code?></span>
                         </h5>
-                        <button type="button"
-                        class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body relative p-4">
-                    <form action="release.php" method="POST"  enctype="multipart/form-data" >
-     
-                       <input type="text" name="member_id" id="release_member_id"class="hidden">
-                       <input type="text" name="amount" id="release_amount" class="hidden">
-                       <input type="text" name="transaction_id" id="release_transaction_id" class="hidden">
-                       <div class="columns-3">
-                        <div class="w-full">
-                       
-                            <div class="mb-4" >
-                                <img src="../images/receipt.png"style="display:block" id="alternativeImage" class="max-w-full h-auto rounded-lg" alt="">
-                                <img src=""style="display:none" id="receiptImg" class="max-w-full h-auto rounded-lg" alt="">
-
-                            </div>
-                            
-                        </div>
-                        <div class="col-span-2">
-                        <div class="flex justify-center">
-                            <div class="mb-3 w-96">
-                                <label for="formFileLg" class="form-label inline-block mb-2 text-gray-700">Upload a receipt</label>
-                               
-                                <input name="uploadedFile"  class="form-control
-                                block
-                                w-full
-                                px-2
-                                py-1.5
-                                text-xl
-                                font-normal
-                                text-gray-700
-                                bg-white bg-clip-padding
-                                border border-solid border-gray-300
-                                rounded
-                                transition
-                                ease-in-out
-                                m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="inputImage" type="file">
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                       
-<!-- Custom scripts -->
-<script type="text/javascript">
-  const checkbox = document.getElementById("flexCheckIndeterminate");
-  checkbox.indeterminate = true;
-</script>
-
+                        <br>
+                        <br>
+                    <form action="payout.php" method="POST">
+                    <div class="mb-3 xl:w-96">
+        <label for="exampleFormControlInput2" class="form-label inline-block mb-2 text-gray-700 text-xl">Enter amount</label>
+        <input type="number" name="POAmount" class=" form-control block w-full px-4 py-2  text-xl  font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="POAmount" placeholder="Please enter a valid amount">
+      </div>
+      <div class="mb-3 xl:w-96">
+        <label for="exampleFormControlInput2" class="form-label inline-block mb-2 text-gray-700 text-xl">Mode of Payment</label>
+        <select name="modeOfPO" class="form-select form-select-lg mb-3 appearance-none block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition  ease-in-out  m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label=".form-select-lg example">
+          <option disabled selected="">Choose mode of payment</option>
+          <option value="Cash">Cash</option>
+          <option value="Gcash">Gcash</option>
+          <option value="BPI">BPI</option>
+      </select></div>
+                    
                     </div>
                     <div
                         class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
                         <button type="button"
                         class="inline-block px-6 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-500 hover:shadow-lg focus:bg-gray-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-600 active:shadow-lg transition duration-150 ease-in-out"
                         data-bs-dismiss="modal">
-                        Cancel
+                        Close
                         </button>
-                        <button type="submit" value="Upload" name="Release"
+                        <button type="submit" name="requestPO"
                         class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
-                        Release
+                        Submit
                         </button>
                     </div>
                     </div>
@@ -325,8 +349,7 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
         </div>
 
 
-
-    <div class="user-code-content-container pt-5 px-6 pb-5 bg-emerald-100 w-full lg:w-3/4 xl:w-4/5 2xl:w-4/5">
+    <div class="user-code-content-container pt-20 px-6 pb-5 bg-emerald-100 w-full lg:w-3/4 xl:w-4/5 2xl:w-4/5">
         
         <!--Container-->
         <div class="container w-full mx-auto px-2">
@@ -335,7 +358,7 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
             <h1 class="font-sans font-bold text-black px-2 lg:mb-3 text-5xl text-center ">
                 Payout Requests
             </h1>
-<form action="payout-request.php" method="GET">
+
             <!--Table-->
             <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded-lg shadow bg-white">
                 <table id="payoutTable" class="stripe hover nowrap row-border dt-body-center" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
@@ -347,8 +370,8 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
                             <th data-priority="4">Amount</th>
                             <th data-priority="5">Mode</th>
                             <th data-priority="6">Status</th>
-                            <th data-priority="8">Time Released</th>
-                            <th data-priority="7">Action</th>
+                            <th data-priority="7">Receipt</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -359,14 +382,13 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
                                 foreach($fetchDataPayout as $data){
                                     $transaction_id = $data['transaction_id'];
                                     $date = $data['date'];
-                                    $member_id= $data['member_id'];
+
                                     $member_name = $data['member_name'];
                                     $amount = $data['amount'];
                                     $mode_of_payment = $data['mode_of_payment'];
                                     $status = $data['status'];
-                                    $Date = $data['date_released'];
-                                    $time = $data['time_released'];
-                                    $receipt=$data['receipt'];
+                                    $receipt = $data['receipt'];
+
 
                         ?>
                                                 <tr>
@@ -376,34 +398,16 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
                             <td class="text-center"><?php echo $amount?></td>
                             <td class="text-center"><?php echo $mode_of_payment?></td>
                             <td class="text-center"><?php echo $status?></td>
-                            <td class="text-center"><?php echo $Date.' '.$time?></td>
-
-                            <?php if($status =="approved") {
+                            <td class="text-center">
+                            <?php
+                             if($receipt=="")
+                             {echo "";
+                             }else{
                                 ?>
-                                <td class="text-center">
-                                <!-- <button type="button" disabled class="text-gray-100 bg-gray-400 focus:ring-4 font-medium rounded-lg text-base px-5 py-2.5 focus:outline-none">Approved</button> -->
-                                <button type="button" onclick="passdataClaim('<?php echo $transaction_id;?>','<?php echo $amount;?>', '<?php echo $member_id;?>');"data-bs-toggle="modal" data-bs-target="#release"  class="text-white bg-yellow-500 hover:bg-orange-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-2.5 focus:outline-none">Release</button>
-
+                                <a type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-2.5 focus:outline-none" href="<?php echo $receipt;?>">View Receipt</a> <?php 
+                            } ?>
                             </td>
 
-                                <?php
-                            }
-                            else if ($status =="pending"){
-                                ?>
-                                 <td class="text-center">
-                                <button type="button" onclick="passdata('<?php echo $transaction_id;?>');" data-bs-toggle="modal" data-bs-target="#approve" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-2.5 focus:outline-none">Approve</button>
-                            </td>
-                                <?php 
-                            }
-                            else if($status =="released"){
-                                ?>
-                                 <td class="text-center">
-                                <a type="button" href="<?php if($receipt==""){echo "#";}else{echo $receipt;} ?>" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-base px-6 py-2.5 focus:outline-none">Released</a>
-                            </td>
-                                <?php 
-                            }
-                                ?>
-                           
                         </tr>
                              <?php
                                         
@@ -411,20 +415,17 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
 
                                         }
                         ?>
-               <!-- <td class="text-center">
-                                <button type="button" disabled class="text-gray-100 bg-gray-400 focus:ring-4 font-medium rounded-lg text-base px-5 py-2.5 focus:outline-none">Approved</button>
-                            </td> -->
                         <!-- end -->
                     </tbody>
                 </table>
             </div>
-                                    </form>
             <!--/Table-->
+            <button type="button" data-bs-toggle="modal" data-bs-target="#payoutModal" class="mb-2 w-full inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-normal uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Request a Payout</button>
         </div>
         <!--/container-->
 
     </div>
-    </div>
+    </>
 
     <script>
         $(document).ready(function(){
@@ -438,49 +439,6 @@ $memName = array("John Arian Malondras", "Kevin Roy Marero", "Cedrick James Oroz
             .columns.adjust()
             .responsive.recalc();
         });
-
-        function passdata(id){
-            document.getElementById('modal_member_id').value=id;
-        }
-        function passdataClaim(transactionId, amount, memberId){
-            document.getElementById('release_member_id').value=memberId;
-            document.getElementById('release_amount').value=amount;
-            document.getElementById('release_transaction_id').value=transactionId;
-
-        }
-
-
-        var validImagetypes=["image/gif", "image/jpeg", "image/png"];
-function previewImage(image_blog){
-  document.getElementById("alternativeImage").style.display="none";
-  // document.getElementById("cardImage").display=null;
-  $("#receiptImg").fadeIn();
-
-  
-    if(image_blog.files && image_blog.files[0])
-    {
-     var reader=new FileReader();
-     var pictureeme =  $("#inputImage").prop("files")[0];
-       reader.onload=function(e)
-       {
-         $("#receiptImg").attr('src', e.target.result);
-        //  $("#cardImage").fadeIn();
-         if($.inArray(pictureeme["type"], validImagetypes)<0)
-         {
-          $("#inputImage").addClass("is-invalid")
-          return;
-         }
-         else{
-           $("#inputImage").removeClass("is-invalid");
-         }
-       }
-       reader.readAsDataURL(image_blog.files[0]);
-   
-    }
-   }
-   $("#inputImage").change(function(){
-     previewImage(this);
-   });
     </script>
 
 </body>
