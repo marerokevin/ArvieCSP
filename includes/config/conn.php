@@ -1,5 +1,6 @@
 <?php
     $server = "localhost";
+
     $username = "arviecsp";
     $password = "p@55w0rd";
     $database = "ArvieDS";
