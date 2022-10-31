@@ -203,9 +203,9 @@ session_start();
                         $transaction_select_code = "SELECT codetype, counter, ref_code, transaction_id from referral_codes WHERE generation_batch = '$transaction'";
                         $transaction_query_code = mysqli_query($conn, $transaction_select_code);
                         while ($specific_transaction = mysqli_fetch_assoc($transaction_query_code)) {
-                            echo $specific_transaction['ref_code'];
-                            //  echo " "; echo $specific_transaction['transaction_id'];
-                              echo "<br>";
+
+                            echo $specific_transaction['ref_code']; echo "<br>";
+
                         }
                     ?>
                     </div>

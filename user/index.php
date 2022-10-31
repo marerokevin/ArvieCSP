@@ -42,7 +42,9 @@ $email = $_SESSION["email_address"];
 if(isset($_POST['enterCode'])){
 
     $EnteredCode = $_POST['EnteredCode'];
-    $sqlSelectCode= "SELECT * FROM `referral_codes` WHERE `ref_code` = '$EnteredCode' AND `status` = 'to_redeem' AND `codetype`='RA' OR `ref_code` = '$EnteredCode' AND `codetype`='RB';";
+
+    $sqlSelectCode= "SELECT * FROM `referral_codes` WHERE `ref_code` = '$EnteredCode' AND `codetype`='RA' OR `ref_code` = '$EnteredCode' AND `codetype`='RB';";
+
     $resultSelectCode = mysqli_query($conn, $sqlSelectCode);
     $num_of_select_code = mysqli_num_rows($resultSelectCode);
     echo "<script>console.log('cedrick$num_of_select_code')</script>";
@@ -50,7 +52,6 @@ if(isset($_POST['enterCode'])){
         {
         $userNameOfCodeOwner = $userRow['userNameOfCodeOwner'];
         $type = $userRow['codetype'];
-// echo $num_of_select_code;
 
 
             if($num_of_select_code !=0)
@@ -78,8 +79,8 @@ if(isset($_POST['enterCode'])){
 
                         }
                     }
+                    $sqlUpdateCodeOwner= "UPDATE `referral_codes` SET `userNameOfCodeOwner`='$email',`referee`='$member_id' WHERE `ref_code` = '$EnteredCode'";
 
-                    $sqlUpdateCodeOwner= "UPDATE `referral_codes` SET `userNameOfCodeOwner`='$email',`referee`='$member_id', `status`='used' WHERE `ref_code` = '$EnteredCode'";
                     mysqli_query($conn, $sqlUpdateCodeOwner);
                     // echo "You have successfully enter the code!";
                     $sqlSelectRebatesPoints= "SELECT * FROM `rebates_points` WHERE `user_id` = '$member_id'";
