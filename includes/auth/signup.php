@@ -18,7 +18,7 @@ date_default_timezone_set("Asia/Singapore");
             $code = "ADS";
             $get_month = date('m', strtotime("now"));
 
-            $sqlLastID = "SELECT MAX(number_basis) as 'idnumber' FROM `accounts` WHERE 1";//select the highest number_basis
+            $sqlLastID = "SELECT MAX(number_basis) as 'idnumber' FROM `accounts` WHERE 1"; //select the highest number_basis
             $getLastId = mysqli_query($conn, $sqlLastID);
             while($userRow = mysqli_fetch_assoc($getLastId)){
                 $lastId = $userRow['idnumber'];
@@ -31,8 +31,10 @@ date_default_timezone_set("Asia/Singapore");
 
 
             $member_id = $code.$getYearNow."-".$getMonthNow."-".$lastId;
+            $b62_id = base_convert($member_id,24, 36);
             
             $referrer = $_GET["ref"];
+            $b62_id_rev = base_convert($referrer,36, 24);
             $ref_code = $_POST["ref_code"];
             $first_name = $_POST["first_name"];
             $last_name = $_POST["last_name"];
@@ -54,7 +56,7 @@ date_default_timezone_set("Asia/Singapore");
                 if(($pass == $confirm_pass)) {
 
                     $hash = password_hash($pass, PASSWORD_DEFAULT);
-                    $create_user_select_name1 = "SELECT * FROM `accounts` WHERE `member_id` = '$referrer'";
+                    $create_user_select_name1 = "SELECT * FROM `accounts` WHERE `member_id` = '$b62_id_rev'";
                     $create_user_query_name1 = mysqli_query($conn, $create_user_select_name1);
                     $fnameNaginvite1 = "";
                     $lnameNaginvite1 = "";
@@ -65,8 +67,8 @@ date_default_timezone_set("Asia/Singapore");
 
                     }
                     //Change this format when deployed
-                    $referralLink = "http://localhost/ArvieCSP/signup.php?ref=$member_id";
-                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`, `referralLink`) VALUES ('$member_id', '$first_name', '$last_name', '$referrer', '$fnameNaginvite1  $lnameNaginvite1', '$email_address', '$hash', '$contact_number', current_timestamp(), 'approved', 'userist', '$ref_code', '$homeaddress', '$tin_acct', '$sss_num', '$lastId', '$referralLink')";
+                    $referralLink = "http://localhost/ArvieCSP/signup.php?ref=$b62_id";
+                    $create_user_select = "INSERT INTO `accounts`(`member_id`, `first_name`, `last_name`, `sponsor`, `sponsorName`, `email_address`, `pass`, `contact_number`, `date`, `access`, `permission`, `referralId`, `homeaddress`, `tin_acct`, `sss_num`, `number_basis`, `referralLink`) VALUES ('$member_id', '$first_name', '$last_name', '$b62_id_rev', '$fnameNaginvite1  $lnameNaginvite1', '$email_address', '$hash', '$contact_number', current_timestamp(), 'approved', 'userist', '$ref_code', '$homeaddress', '$tin_acct', '$sss_num', '$lastId', '$referralLink')";
                     $success = mysqli_query($conn, $create_user_select);
 
                     if ($success) { //Just to confirm if may nainsert, and nag success.
@@ -76,7 +78,7 @@ date_default_timezone_set("Asia/Singapore");
                         $sqlInsertUserInitialPoints = "INSERT INTO `rebates_points`(`user_id`, `email_address`, `pointsEarned`) VALUES ('$member_id','$email_address','0')";
                         mysqli_query($conn, $sqlInsertUserInitialPoints);
 
-                        $create_user_select_name = "SELECT * FROM `accounts` WHERE `member_id` = '$referrer'";
+                        $create_user_select_name = "SELECT * FROM `accounts` WHERE `member_id` = '$b62_id_rev'";
                         $create_user_query_name = mysqli_query($conn, $create_user_select_name);
                         $fnameNaginvite = "";
                         $lnameNaginvite = "";
@@ -93,7 +95,7 @@ date_default_timezone_set("Asia/Singapore");
                         mysqli_query($conn, $sqlupdatecodestatus);
 
                         //start of passive
-                        $sqlGetTotalBalance= "SELECT * FROM `totalbalance` WHERE `userID` = '$referrer'";
+                        $sqlGetTotalBalance= "SELECT * FROM `totalbalance` WHERE `userID` = '$b62_id_rev'";
                         $resultTotalBalance = mysqli_query($conn, $sqlGetTotalBalance);
                         
                         $totalBalance = 0;
@@ -101,16 +103,16 @@ date_default_timezone_set("Asia/Singapore");
                             $totalBalance = $userRow['totalBalance'];
                         }
                         $updatedBalance = $totalBalance + 500;
-                        $sqlAddBalance= "UPDATE `totalbalance` SET `totalBalance`='$updatedBalance' WHERE `userID` = '$referrer'";
+                        $sqlAddBalance= "UPDATE `totalbalance` SET `totalBalance`='$updatedBalance' WHERE `userID` = '$b62_id_rev'";
                         mysqli_query($conn, $sqlAddBalance);
                     
-                        $sqlinsertTransact= "INSERT INTO `transaction`(`type`,`userName`,`userId`, `inviteName`,`inviteeName`, `addedAmount`, `TotalBalance`) VALUES ('Direct Referral','$emailNaginvite','$referrer','$first_name $last_name','$fnameNaginvite $lnameNaginvite','500','$updatedBalance')";
+                        $sqlinsertTransact= "INSERT INTO `transaction`(`type`,`userName`,`userId`, `inviteName`,`inviteeName`, `addedAmount`, `TotalBalance`) VALUES ('Direct Referral','$emailNaginvite','$b62_id_rev','$first_name $last_name','$fnameNaginvite $lnameNaginvite','500','$updatedBalance')";
                         mysqli_query($conn, $sqlinsertTransact);
                         
                         //start of loop max of 10th level
 
                         $upline=$emailNaginvite;
-                        $uplineId=$referrer;
+                        $uplineId=$b62_id_rev;
                     
                         for ($i = 1; $i<=9; $i++){
                     
