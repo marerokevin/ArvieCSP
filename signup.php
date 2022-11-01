@@ -105,16 +105,6 @@
         </div>
         <p class="text-center mt-3 pb-5">Already have an account? <a href="./login.php" class="text-blue-700">Sign in</a></p>
     </div>
-
-
-<?php
-
-if(isset($_GET['arviecsp'])){
-    $sponsorID = $_GET['arviecsp'];
-
-    echo "<script> document.getElementById('sponsorId-input').value='$sponsorID'</script>";
-}
-?>
     <script>
         $(document).ready(function(){
             $('#phone').keyup(function () { 
