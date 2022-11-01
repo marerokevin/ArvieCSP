@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../includes/config/conn.php";
+include "/var/www/html/ArvieCSP/includes/config/conn.php";
 
 // //Working
 // $select_member_id ="SELECT * FROM accounts";
@@ -19,7 +19,6 @@ include "../includes/config/conn.php";
 
 if(isset($_POST['generate'])){
     $String_c='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    // echo $String_c;
     $transaction_code = "AT";
     $get_month_trans = date('m', strtotime("now"));
     $generation_batch = substr(str_shuffle($String_c), 0, 16);
@@ -43,8 +42,7 @@ if(isset($_POST['generate'])){
             $arrLength = count($gen);
             $turon = $gen[$x];
 
-            // echo $turon;
-            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `counter`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$counter')";
+            $insert_generated = "INSERT INTO `referral_codes` (`ref_code`, `gen_date`, `referrer`, `transfer_date`, `transact_date`, `status`, `generation_batch`, `codetype`, `counter`, `userNameOfCodeOwner`, `referrer_name`) VALUES ('$turon', current_timestamp(), 'waiting', current_timestamp(), current_timestamp(), 'to_redeem', '$transaction', '$codetype' ,'$counter', 'n/a',  'n/a')";
 
             mysqli_query($conn, $insert_generated);
 
